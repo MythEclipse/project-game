@@ -89,61 +89,369 @@ public static class TextureFactory {
         return tex;
     }
 
-    // ============ UNIT SPRITE (16x16 pixel art) ============
+    // ============ UNIT SPRITE (16x16 pixel art) — class-specific ============
 
-    public static Texture2D GenerateUnitSprite(int size, Color bodyColor, Color accentColor) {
-        var tex = MakeTex(size, size);
+    public static Texture2D GenerateUnitSprite(int size, UnitClass cls, Color bodyColor, Color accentColor) {
+        return cls switch {
+            UnitClass.Fighter => FighterSprite(size, bodyColor, accentColor),
+            UnitClass.Rogue   => RogueSprite(size, bodyColor, accentColor),
+            UnitClass.Wizard  => WizardSprite(size, bodyColor, accentColor),
+            UnitClass.Cleric  => ClericSprite(size, bodyColor, accentColor),
+            _                 => FighterSprite(size, bodyColor, accentColor),
+        };
+    }
 
-        for (int x = 0; x < size; x++)
-            for (int y = 0; y < size; y++)
-                tex.SetPixel(x, y, Color.clear);
+    /// <summary>Generate enemy-specific sprite by name.</summary>
+    public static Texture2D GenerateEnemySprite(int size, string enemyType, Color bodyColor, Color accentColor) {
+        string t = enemyType.ToLower();
+        if (t.Contains("goblin")) return GoblinSprite(size, bodyColor, accentColor);
+        if (t.Contains("skeleton")) return SkeletonSprite(size, bodyColor, accentColor);
+        return SkeletonSprite(size, bodyColor, accentColor);
+    }
 
-        int cx = size / 2; // center x = 8 untuk 16px
+    // ─── FIGHTER: Full helm, broad torso, sword ───
+    static Texture2D FighterSprite(int size, Color c, Color a) {
+        var tex = MakeTex(size, size); Clear(tex);
+        int cx = size / 2;
 
-        // Head — circle radius 3 at top
-        DrawCircle(tex, cx, size - 3, 3, bodyColor);
+        // Feet (armored boots — wider)
+        for (int x = cx - 3; x <= cx + 3; x++) { DrawPixel(tex, x, 0, a); DrawPixel(tex, x, 1, a); }
 
-        // Eyes — two dark dots
-        DrawPixel(tex, cx - 1, size - 3, Color.black);
-        DrawPixel(tex, cx + 1, size - 3, Color.black);
+        // Legs (thick)
+        for (int y = 2; y <= 3; y++) for (int x = cx - 2; x <= cx + 2; x++) DrawPixel(tex, x, y, c);
 
-        // Torso — from y=4 to y=10
-        for (int y = 4; y < size - 4; y++) {
-            int halfW = Mathf.RoundToInt(Mathf.Lerp(4, 5, (y - 4f) / 8f));
-            for (int x = cx - halfW; x <= cx + halfW; x++) {
-                DrawPixel(tex, x, y, bodyColor);
-            }
+        // Torso (broad — full width 11px)
+        for (int y = 4; y <= 8; y++) {
+            int hw = y >= 7 ? 4 : 5;
+            for (int x = cx - hw; x <= cx + hw; x++) DrawPixel(tex, x, y, c);
         }
 
-        // Belt — row 7 with accent
-        for (int x = cx - 3; x <= cx + 3; x++)
-            DrawPixel(tex, x, 7, accentColor);
+        // Chest plate (accent band)
+        for (int x = cx - 4; x <= cx + 4; x++) DrawPixel(tex, x, 6, a);
 
-        // Belt buckle (gold dot)
-        DrawPixel(tex, cx, 7, Color.yellow);
+        // Shoulder plates (wide)
+        DrawPixel(tex, cx - 6, 8, a); DrawPixel(tex, cx + 6, 8, a);
+        DrawPixel(tex, cx - 6, 9, a); DrawPixel(tex, cx + 6, 9, a);
 
-        // Legs — two columns
-        for (int y = 1; y <= 3; y++) {
-            DrawPixel(tex, cx - 2, y, bodyColor);
-            DrawPixel(tex, cx - 1, y, bodyColor);
-            DrawPixel(tex, cx + 1, y, bodyColor);
-            DrawPixel(tex, cx + 2, y, bodyColor);
+        // Arms
+        for (int y = 5; y <= 7; y++) { DrawPixel(tex, cx - 6, y, c); DrawPixel(tex, cx + 6, y, c); }
+
+        // Neck
+        DrawPixel(tex, cx, 9, a);
+
+        // Helmet (full enclosure)
+        for (int x = cx - 3; x <= cx + 3; x++) {
+            DrawPixel(tex, x, 10, a);
+            DrawPixel(tex, x, 14, a); // top
         }
+        DrawPixel(tex, cx - 3, 11, a); DrawPixel(tex, cx + 3, 11, a);
+        DrawPixel(tex, cx - 3, 12, a); DrawPixel(tex, cx + 3, 12, a);
+        DrawPixel(tex, cx - 3, 13, a); DrawPixel(tex, cx + 3, 13, a);
+        // Helmet visor slit (eye glow)
+        DrawPixel(tex, cx - 1, 12, Color.yellow);
+        DrawPixel(tex, cx + 1, 12, Color.yellow);
+        // Helmet crest
+        DrawPixel(tex, cx, 15, a);
+        DrawPixel(tex, cx - 1, 15, a); DrawPixel(tex, cx + 1, 15, a);
+
+        // Sword at right side
+        DrawPixel(tex, cx + 7, 4, UIColorPalette.GoldTrim);
+        DrawPixel(tex, cx + 7, 5, UIColorPalette.GoldTrim);
+        DrawPixel(tex, cx + 7, 3, Color.white);
+        DrawPixel(tex, cx + 7, 2, Color.white);
+        DrawPixel(tex, cx + 7, 1, Color.white);
+        DrawPixel(tex, cx + 8, 3, a);
+
+        tex.Apply(); return tex;
+    }
+
+    // ─── ROGUE: Hood, slim build, dagger ───
+    static Texture2D RogueSprite(int size, Color c, Color a) {
+        var tex = MakeTex(size, size); Clear(tex);
+        int cx = size / 2;
+
+        // Feet (light boots)
+        for (int x = cx - 2; x <= cx + 2; x++) DrawPixel(tex, x, 0, a);
+        DrawPixel(tex, cx - 1, 1, a); DrawPixel(tex, cx + 1, 1, a);
+
+        // Legs (narrow)
+        for (int x = cx - 1; x <= cx + 1; x++) { DrawPixel(tex, x, 1, c); DrawPixel(tex, x, 2, c); }
+
+        // Torso (slim — 7px wide)
+        for (int y = 3; y <= 8; y++) {
+            int hw = y >= 6 ? 3 : 4;
+            for (int x = cx - hw; x <= cx + hw; x++) DrawPixel(tex, x, y, c);
+        }
+
+        // Tunic V-neck
+        DrawPixel(tex, cx - 2, 7, a); DrawPixel(tex, cx + 2, 7, a);
+        DrawPixel(tex, cx - 1, 8, a); DrawPixel(tex, cx + 1, 8, a);
+        DrawPixel(tex, cx, 8, a);
+
+        // Belt
+        DrawPixel(tex, cx - 2, 5, a); DrawPixel(tex, cx - 1, 5, a);
+        DrawPixel(tex, cx, 5, a); DrawPixel(tex, cx + 1, 5, a); DrawPixel(tex, cx + 2, 5, a);
+
+        // Arms (slim, angled)
+        for (int y = 6; y <= 8; y++) { DrawPixel(tex, cx - 5, y, c); DrawPixel(tex, cx + 5, y, c); }
+
+        // Hood (pointy, shadow over eyes)
+        for (int x = cx - 3; x <= cx + 3; x++) {
+            DrawPixel(tex, x, 9, a);
+            DrawPixel(tex, x, 10, a);
+            DrawPixel(tex, x, 13, a);
+        }
+        DrawPixel(tex, cx - 3, 11, a); DrawPixel(tex, cx + 3, 11, a);
+        DrawPixel(tex, cx - 3, 12, a); DrawPixel(tex, cx + 3, 12, a);
+        DrawPixel(tex, cx - 1, 14, a); DrawPixel(tex, cx + 1, 14, a);
+        DrawPixel(tex, cx, 15, a); // hood tip
+        // Eyes (menacing glow)
+        DrawPixel(tex, cx - 1, 11, Color.red);
+        DrawPixel(tex, cx + 1, 11, Color.red);
+
+        // Dagger at belt
+        DrawPixel(tex, cx + 6, 3, a);
+        DrawPixel(tex, cx + 6, 4, Color.white);
+        DrawPixel(tex, cx + 6, 5, Color.white);
+
+        tex.Apply(); return tex;
+    }
+
+    // ─── WIZARD: Pointed hat, robe, staff ───
+    static Texture2D WizardSprite(int size, Color c, Color a) {
+        var tex = MakeTex(size, size); Clear(tex);
+        int cx = size / 2;
+
+        // Feet (shoes)
+        DrawPixel(tex, cx - 2, 0, a); DrawPixel(tex, cx - 1, 0, a);
+        DrawPixel(tex, cx + 1, 0, a); DrawPixel(tex, cx + 2, 0, a);
+
+        // Robe bottom (wide — 9px)
+        for (int y = 1; y <= 3; y++) for (int x = cx - 3; x <= cx + 3; x++) DrawPixel(tex, x, y, c);
+        for (int x = cx - 4; x <= cx + 4; x++) DrawPixel(tex, x, 1, c);
+
+        // Robe middle
+        for (int y = 4; y <= 8; y++) for (int x = cx - 3; x <= cx + 3; x++) DrawPixel(tex, x, y, c);
+
+        // Robe trim (accent)
+        for (int x = cx - 3; x <= cx + 3; x++) DrawPixel(tex, x, 3, a);
+        for (int x = cx - 2; x <= cx + 2; x++) DrawPixel(tex, x, 7, a);
+
+        // Arcane symbol (star-like)
+        DrawPixel(tex, cx, 6, Color.cyan);
+        DrawPixel(tex, cx - 1, 6, Color.cyan); DrawPixel(tex, cx + 1, 6, Color.cyan);
+        DrawPixel(tex, cx, 5, Color.cyan); DrawPixel(tex, cx, 7, Color.cyan);
+
+        // Arms (hidden in robe, only sleeves)
+        DrawPixel(tex, cx - 5, 7, c); DrawPixel(tex, cx - 5, 8, c);
+        DrawPixel(tex, cx + 5, 7, c); DrawPixel(tex, cx + 5, 8, c);
+
+        // Head
+        DrawCircle(tex, cx, 10, 3, c);
+        // Eyes (arcane glow)
+        DrawPixel(tex, cx - 1, 10, Color.cyan);
+        DrawPixel(tex, cx + 1, 10, Color.cyan);
+        // Beard
+        DrawPixel(tex, cx, 8, Color.white);
+        DrawPixel(tex, cx - 1, 8, Color.white);
+
+        // Pointed hat
+        for (int y = 13; y <= 15; y++) {
+            int hw = 15 - y;
+            for (int x = cx - hw; x <= cx + hw; x++) DrawPixel(tex, x, y, a);
+        }
+        // Hat brim
+        for (int x = cx - 3; x <= cx + 3; x++) DrawPixel(tex, x, 12, a);
+        // Star on hat tip
+        DrawPixel(tex, cx, 15, Color.yellow);
+
+        // Staff at right
+        DrawPixel(tex, cx + 7, 2, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 7, 3, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 7, 4, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 7, 5, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 7, 6, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 7, 7, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 7, 8, UIColorPalette.ParchmentDark);
+        // Staff gem
+        DrawPixel(tex, cx + 7, 9, Color.cyan);
+        DrawPixel(tex, cx + 8, 9, Color.cyan);
+        DrawPixel(tex, cx + 7, 10, Color.cyan);
+
+        tex.Apply(); return tex;
+    }
+
+    // ─── CLERIC: Mace, cape, holy symbol ───
+    static Texture2D ClericSprite(int size, Color c, Color a) {
+        var tex = MakeTex(size, size); Clear(tex);
+        int cx = size / 2;
 
         // Feet
-        DrawPixel(tex, cx - 3, 0, accentColor);
-        DrawPixel(tex, cx - 2, 0, accentColor);
-        DrawPixel(tex, cx + 2, 0, accentColor);
-        DrawPixel(tex, cx + 3, 0, accentColor);
+        for (int x = cx - 3; x <= cx + 3; x++) DrawPixel(tex, x, 0, a);
+        DrawPixel(tex, cx - 2, 1, a); DrawPixel(tex, cx + 2, 1, a);
 
-        // Arms — one pixel each side
-        for (int y = 6; y <= 8; y++) {
-            DrawPixel(tex, cx - 5, y, bodyColor);
-            DrawPixel(tex, cx + 5, y, bodyColor);
-        }
+        // Legs (medium)
+        for (int y = 1; y <= 3; y++) for (int x = cx - 2; x <= cx + 2; x++) DrawPixel(tex, x, y, c);
 
-        tex.Apply();
-        return tex;
+        // Torso
+        for (int y = 4; y <= 8; y++) for (int x = cx - 4; x <= cx + 4; x++) DrawPixel(tex, x, y, c);
+
+        // Robe front panel (accent)
+        for (int x = cx - 1; x <= cx + 1; x++) { DrawPixel(tex, x, 3, a); DrawPixel(tex, x, 4, a); }
+        DrawPixel(tex, cx, 5, a); DrawPixel(tex, cx, 6, a);
+
+        // Cape (flows behind, visible at sides)
+        DrawPixel(tex, cx - 5, 4, a); DrawPixel(tex, cx + 5, 4, a);
+        DrawPixel(tex, cx - 5, 5, a); DrawPixel(tex, cx + 5, 5, a);
+        DrawPixel(tex, cx - 5, 6, a); DrawPixel(tex, cx + 5, 6, a);
+        DrawPixel(tex, cx - 5, 7, a); DrawPixel(tex, cx + 5, 7, a);
+        DrawPixel(tex, cx - 5, 8, a); DrawPixel(tex, cx + 5, 8, a);
+
+        // Arms
+        for (int y = 5; y <= 7; y++) { DrawPixel(tex, cx - 6, y, c); DrawPixel(tex, cx + 6, y, c); }
+
+        // Head
+        DrawCircle(tex, cx, 10, 3, c);
+        // Eyes (serene)
+        DrawPixel(tex, cx - 1, 10, Color.black);
+        DrawPixel(tex, cx + 1, 10, Color.black);
+
+        // Hair / tonsure
+        DrawPixel(tex, cx, 12, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx - 1, 12, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx + 1, 12, UIColorPalette.ParchmentDark);
+        DrawPixel(tex, cx, 13, UIColorPalette.ParchmentDark);
+
+        // Mace in right hand
+        DrawPixel(tex, cx + 7, 5, a);
+        DrawPixel(tex, cx + 7, 6, a);
+        DrawPixel(tex, cx + 7, 7, a);
+        DrawPixel(tex, cx + 7, 8, a);
+        // Mace head
+        DrawPixel(tex, cx + 6, 9, UIColorPalette.GoldTrim);
+        DrawPixel(tex, cx + 7, 9, UIColorPalette.GoldTrim);
+        DrawPixel(tex, cx + 8, 9, UIColorPalette.GoldTrim);
+        DrawPixel(tex, cx + 7, 10, UIColorPalette.GoldTrim);
+        DrawPixel(tex, cx + 7, 8, UIColorPalette.GoldTrim);
+
+        // Holy symbol on chest
+        DrawPixel(tex, cx, 6, Color.yellow);
+        DrawPixel(tex, cx - 1, 5, Color.yellow); DrawPixel(tex, cx + 1, 5, Color.yellow);
+
+        tex.Apply(); return tex;
+    }
+
+    // ─── GOBLIN ENEMY: small, hunched, pointy ears ───
+    static Texture2D GoblinSprite(int size, Color c, Color a) {
+        var tex = MakeTex(size, size); Clear(tex);
+        int cx = size / 2;
+
+        // Feet (small)
+        DrawPixel(tex, cx - 1, 0, a); DrawPixel(tex, cx + 1, 0, a);
+
+        // Legs (short)
+        DrawPixel(tex, cx - 1, 1, c); DrawPixel(tex, cx, 1, c); DrawPixel(tex, cx + 1, 1, c);
+
+        // Torso (small, hunched)
+        for (int y = 2; y <= 6; y++) for (int x = cx - 3; x <= cx + 3; x++) DrawPixel(tex, x, y, c);
+
+        // Ragged clothes
+        DrawPixel(tex, cx - 3, 3, a); DrawPixel(tex, cx + 3, 3, a);
+        DrawPixel(tex, cx - 2, 4, a); DrawPixel(tex, cx + 2, 4, a);
+
+        // Head (larger proportionally)
+        DrawCircle(tex, cx, 9, 3, new Color(0.5f, 0.7f, 0.3f)); // greenish skin
+
+        // Pointy ears
+        DrawPixel(tex, cx - 5, 9, new Color(0.5f, 0.7f, 0.3f));
+        DrawPixel(tex, cx - 4, 10, new Color(0.5f, 0.7f, 0.3f));
+        DrawPixel(tex, cx + 5, 9, new Color(0.5f, 0.7f, 0.3f));
+        DrawPixel(tex, cx + 4, 10, new Color(0.5f, 0.7f, 0.3f));
+
+        // Eyes (red, fierce)
+        DrawPixel(tex, cx - 1, 9, Color.red);
+        DrawPixel(tex, cx + 1, 9, Color.red);
+
+        // Teeth
+        DrawPixel(tex, cx - 1, 7, Color.white);
+        DrawPixel(tex, cx + 1, 7, Color.white);
+
+        // Arms (short, holding weapon)
+        DrawPixel(tex, cx - 5, 4, c); DrawPixel(tex, cx + 5, 4, c);
+        DrawPixel(tex, cx - 5, 5, c); DrawPixel(tex, cx + 5, 5, c);
+
+        // Crude weapon (right hand)
+        DrawPixel(tex, cx + 6, 5, a);
+        DrawPixel(tex, cx + 6, 6, a);
+        DrawPixel(tex, cx + 6, 7, UIColorPalette.GoldTrim);
+
+        tex.Apply(); return tex;
+    }
+
+    // ─── SKELETON ENEMY: skull, thin frame ───
+    static Texture2D SkeletonSprite(int size, Color c, Color a) {
+        var tex = MakeTex(size, size); Clear(tex);
+        int cx = size / 2;
+        Color bone = new Color(0.85f, 0.82f, 0.75f);
+
+        // Feet (bone)
+        DrawPixel(tex, cx - 2, 0, bone); DrawPixel(tex, cx + 2, 0, bone);
+        DrawPixel(tex, cx - 1, 1, bone); DrawPixel(tex, cx + 1, 1, bone);
+        DrawPixel(tex, cx, 0, bone);
+
+        // Legs (thin)
+        DrawPixel(tex, cx - 2, 2, bone); DrawPixel(tex, cx + 2, 2, bone);
+        DrawPixel(tex, cx - 2, 3, bone); DrawPixel(tex, cx + 2, 3, bone);
+        DrawPixel(tex, cx - 1, 4, bone); DrawPixel(tex, cx + 1, 4, bone);
+
+        // Ribcage
+        DrawPixel(tex, cx - 3, 5, bone); DrawPixel(tex, cx + 3, 5, bone);
+        DrawPixel(tex, cx - 3, 6, bone); DrawPixel(tex, cx + 3, 6, bone);
+        DrawPixel(tex, cx - 3, 7, bone); DrawPixel(tex, cx + 3, 7, bone);
+        DrawPixel(tex, cx - 3, 8, bone); DrawPixel(tex, cx + 3, 8, bone);
+        // Spine
+        DrawPixel(tex, cx, 5, bone); DrawPixel(tex, cx, 6, bone);
+        DrawPixel(tex, cx, 7, bone); DrawPixel(tex, cx, 8, bone);
+
+        // Dark void in chest
+        DrawPixel(tex, cx - 1, 6, Color.black); DrawPixel(tex, cx + 1, 6, Color.black);
+        DrawPixel(tex, cx - 1, 7, Color.black); DrawPixel(tex, cx + 1, 7, Color.black);
+
+        // Arms (bony)
+        DrawPixel(tex, cx - 5, 6, bone); DrawPixel(tex, cx + 5, 6, bone);
+        DrawPixel(tex, cx - 5, 7, bone); DrawPixel(tex, cx + 5, 7, bone);
+        DrawPixel(tex, cx - 5, 8, bone); DrawPixel(tex, cx + 5, 8, bone);
+
+        // Hands
+        DrawPixel(tex, cx - 6, 6, bone); DrawPixel(tex, cx + 6, 6, bone);
+
+        // Skull
+        DrawCircle(tex, cx, 11, 3, bone);
+        // Eye sockets (empty)
+        DrawPixel(tex, cx - 1, 11, Color.black);
+        DrawPixel(tex, cx + 1, 11, Color.black);
+        // Nose hole
+        DrawPixel(tex, cx, 10, Color.black);
+        // Teeth
+        DrawPixel(tex, cx - 1, 9, bone); DrawPixel(tex, cx + 1, 9, bone);
+        DrawPixel(tex, cx, 9, Color.black);
+        // Skull crack
+        DrawPixel(tex, cx, 13, new Color(0.5f, 0.5f, 0.5f));
+
+        // Weapon — rusty blade
+        DrawPixel(tex, cx + 7, 6, a);
+        DrawPixel(tex, cx + 7, 7, a);
+        DrawPixel(tex, cx + 7, 8, a);
+        DrawPixel(tex, cx + 7, 9, a);
+        DrawPixel(tex, cx + 7, 10, a);
+
+        tex.Apply(); return tex;
+    }
+
+    static void Clear(Texture2D tex) {
+        for (int x = 0; x < tex.width; x++)
+            for (int y = 0; y < tex.height; y++)
+                tex.SetPixel(x, y, Color.clear);
     }
 
     // ============ ICONS ============

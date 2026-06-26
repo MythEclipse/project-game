@@ -44,22 +44,13 @@ public static class SpriteFactory {
     static Sprite _fighterCache, _rogueCache, _wizardCache, _clericCache, _enemyCache;
 
     public static Sprite UnitSprite(UnitClass cls) {
-        Sprite cache;
-        switch (cls) {
-            case UnitClass.Fighter: cache = _fighterCache; break;
-            case UnitClass.Rogue:   cache = _rogueCache; break;
-            case UnitClass.Wizard:  cache = _wizardCache; break;
-            case UnitClass.Cleric:  cache = _clericCache; break;
-            default:                cache = _enemyCache; break;
-        }
+        // Tidak lagi dipakai — semua sprite dibuat via UnitSpriteRaw di Unit.cs
+        return null;
+    }
 
-        if (cache != null) return cache;
-
-        var color = UIColorPalette.GetClassColor(cls);
-        var accent = UIColorPalette.GetAccentColor(cls);
-        var tex = TextureFactory.GenerateUnitSprite(16, color, accent);
-        cache = CreateSprite(tex);
-        return cache;
+    /// <summary>Buat sprite langsung dari texture (tanpa cache class).</summary>
+    public static Sprite UnitSpriteRaw(Texture2D tex) {
+        return CreateSprite(tex);
     }
 
     // ===== ICONS =====

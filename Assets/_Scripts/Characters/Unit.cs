@@ -8,10 +8,13 @@ public class Unit : MonoBehaviour {
 
     [Header("State")]
     [SerializeField] private int _currentHp;
-    private SpriteRenderer _sr;
+
+    [Header("Visual")]
+    [SerializeField] private SpriteRenderer _sr;
     private Image _hpBarFill;
     private Color _classColor;
     private bool _isDead;
+    private Vector3 _baseScale;
 
     public UnitData Data => _data;
     public Vector2Int GridPos { get; private set; }
@@ -43,6 +46,7 @@ public class Unit : MonoBehaviour {
 
         _classColor = _data != null ? UIColorPalette.GetClassColor(_data.unitClass) : Color.gray;
         SetupSprite();
+        SetupScale();
         SetupHpBar();
     }
 
@@ -55,9 +59,37 @@ public class Unit : MonoBehaviour {
 
     void SetupSprite() {
         if (_data != null) {
-            _sr.sprite = SpriteFactory.UnitSprite(_data.unitClass);
+            var cls = _data.unitClass;
+            string name = _data.unitName.ToLower();
+            bool isPlayer = _data.isPlayerControlled;
+
+            // Warna berdasarkan team: biru untuk ally, merah untuk enemy
+            Color body = UIColorPalette.GetTeamColor(isPlayer, false);
+            Color accent = UIColorPalette.GetTeamColor(isPlayer, true);
+
+            if (name.Contains("goblin")) {
+                _sr.sprite = SpriteFactory.UnitSpriteRaw(
+                    TextureFactory.GenerateEnemySprite(16, "goblin", body, accent));
+            } else if (name.Contains("skeleton")) {
+                _sr.sprite = SpriteFactory.UnitSpriteRaw(
+                    TextureFactory.GenerateEnemySprite(16, "skeleton", body, accent));
+            } else {
+                _sr.sprite = SpriteFactory.UnitSpriteRaw(
+                    TextureFactory.GenerateUnitSprite(16, cls, body, accent));
+            }
         }
         _sr.sortingOrder = 10;
+    }
+
+    void SetupScale() {
+        if (_data == null) return;
+        string name = _data.unitName.ToLower();
+        float s = name.Contains("goblin") ? 0.85f :
+                  name.Contains("skeleton") ? 0.95f :
+                  _data.unitClass == UnitClass.Fighter ? 1.10f :
+                  _data.unitClass == UnitClass.Rogue ? 0.95f : 1.0f;
+        _baseScale = new Vector3(s, s, s);
+        transform.localScale = _baseScale;
     }
 
     void SetupHpBar() {
@@ -117,6 +149,7 @@ public class Unit : MonoBehaviour {
             _currentHp = data.maxHp;
             _classColor = UIColorPalette.GetClassColor(data.unitClass);
             SetupSprite();
+            SetupScale();
         }
     }
 

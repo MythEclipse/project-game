@@ -59,9 +59,11 @@ public class ActionSystem : MonoBehaviour {
     // ===== ATTACK =====
 
     public void ExecuteAttack(Unit attacker, Unit defender) {
-        if (attacker == null || defender == null) return;
+        ExecuteAttack(attacker, defender, DamageCalculator.CalculateDamage(attacker, defender));
+    }
 
-        var result = DamageCalculator.CalculateDamage(attacker, defender);
+    public void ExecuteAttack(Unit attacker, Unit defender, AttackResult result) {
+        if (attacker == null || defender == null) return;
 
         if (result.hit && result.damage > 0) {
             defender.TakeDamage(result.damage);

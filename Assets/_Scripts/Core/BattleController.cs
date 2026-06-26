@@ -22,6 +22,10 @@ public class BattleController : MonoBehaviour {
     private bool _isWaitingForTarget;
     private BattleHUD _battleHud;
     private Coroutine _pulseCoroutine;
+    private Coroutine _attackAnimCoroutine;
+    private bool _isAnimating;
+    private AttackResult _lastAttackResult;
+    private Unit _lastDefender;
 
     private static readonly Color MoveColor = new Color(0.2f, 0.8f, 0.2f, 0.5f);
     private static readonly Color AttackColor = new Color(0.8f, 0.2f, 0.2f, 0.5f);
@@ -132,6 +136,39 @@ public class BattleController : MonoBehaviour {
             cam.Shake(result.crit ? 0.25f : 0.1f, 0.15f);
     }
 
+    /// <summary>Animated attack: dice roll → apply → auto-end-turn.</summary>
+    public void DoAttackAnim(Unit attacker, Unit defender) {
+        if (_attackAnimCoroutine != null) StopCoroutine(_attackAnimCoroutine);
+        _attackAnimCoroutine = StartCoroutine(ExecuteAttackAnim(attacker, defender));
+    }
+
+    IEnumerator ExecuteAttackAnim(Unit attacker, Unit defender) {
+        _isAnimating = true;
+        _turnManager.SubState = TurnSubState.Animating;
+        ClearHighlights();
+
+        // Hitung damage
+        var result = DamageCalculator.CalculateDamage(attacker, defender);
+
+        // Show dice roll UI
+        var diceGo = new GameObject("DiceRoll", typeof(DiceRollDisplay), typeof(RectTransform));
+        bool diceDone = false;
+        diceGo.GetComponent<DiceRollDisplay>().Init(result, () => diceDone = true);
+        while (!diceDone) yield return null;
+
+        // Apply damage
+        _actionSystem.ExecuteAttack(attacker, defender, result);
+
+        _isAnimating = false;
+        _turnManager.SubState = TurnSubState.SelectingAction;
+
+        // Auto-end-turn jika sudah abis action points
+        if (attacker.HasMovedThisTurn && attacker.HasActedThisTurn) {
+            yield return new WaitForSeconds(0.3f);
+            _turnManager.EndUnitTurn();
+        }
+    }
+
     IEnumerator PulseHighlight(Tile tile) {
         while (tile != null && _selectedUnit != null) {
             float alpha = 0.3f + Mathf.Sin(Time.time * 3f) * 0.35f;
@@ -146,6 +183,7 @@ public class BattleController : MonoBehaviour {
     void HandleTileClicked(Tile clickedTile) {
         if (_turnManager == null || _turnManager.CurrentPhase != BattlePhase.Battle) return;
         if (_turnManager.SubState != TurnSubState.SelectingAction && _turnManager.SubState != TurnSubState.SelectingTarget) return;
+        if (_isAnimating) return; // block input during dice roll
 
         var active = _turnManager.ActiveUnit;
         if (active == null || !active.IsAlive) return;
@@ -157,8 +195,7 @@ public class BattleController : MonoBehaviour {
         // Klik musuh → serang
         if (clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
             && _actionSystem.CanAttackTarget(_selectedUnit, clickedTile)) {
-            _actionSystem.ExecuteAttack(_selectedUnit, clickedTile.Occupant);
-            ClearHighlights();
+            DoAttackAnim(_selectedUnit, clickedTile.Occupant);
             return;
         }
 
@@ -175,7 +212,7 @@ public class BattleController : MonoBehaviour {
             case ActionType.Attack:
                 if (clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
                     && _actionSystem.CanAttackTarget(_selectedUnit, clickedTile)) {
-                    _actionSystem.ExecuteAttack(_selectedUnit, clickedTile.Occupant);
+                    DoAttackAnim(_selectedUnit, clickedTile.Occupant);
                     _isWaitingForTarget = false; ClearHighlights();
                     _turnManager.SubState = TurnSubState.SelectingAction;
                 }
@@ -203,6 +240,7 @@ public class BattleController : MonoBehaviour {
     void BeginAction(ActionType actionType) {
         if (_turnManager.CurrentPhase != BattlePhase.Battle || _selectedUnit == null || !_selectedUnit.IsAlive) return;
         if (!_selectedUnit.IsPlayerControlled) return;
+        if (_isAnimating) return; // block input during dice roll
         ClearHighlights();
 
         switch (actionType) {

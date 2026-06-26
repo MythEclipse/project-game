@@ -170,8 +170,13 @@ public class TurnManager : MonoBehaviour {
         int targetDist = Mathf.Abs(origin.x - closestTarget.GridPos.x) + Mathf.Abs(origin.y - closestTarget.GridPos.y);
 
         if (targetDist <= atkRange) {
-            ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
-            yield return new WaitForSeconds(0.5f);
+            // Attack with dice roll animation
+            if (BattleController.Instance != null) {
+                yield return StartCoroutine(EnemyAttackCoroutine(enemy, closestTarget));
+            } else {
+                ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
+                yield return new WaitForSeconds(0.5f);
+            }
         } else {
             var walkable = ActionRangeCalculator.GetWalkableTiles(origin, enemy.Data.moveRange, grid);
             Tile bestTile = null;
@@ -185,8 +190,13 @@ public class TurnManager : MonoBehaviour {
             }
             int newDist = Mathf.Abs(enemy.GridPos.x - closestTarget.GridPos.x) + Mathf.Abs(enemy.GridPos.y - closestTarget.GridPos.y);
             if (newDist <= atkRange) {
-                ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
-                yield return new WaitForSeconds(0.5f);
+                // Attack with dice roll animation
+                if (BattleController.Instance != null) {
+                    yield return StartCoroutine(EnemyAttackCoroutine(enemy, closestTarget));
+                } else {
+                    ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
+                    yield return new WaitForSeconds(0.5f);
+                }
             } else if (!enemy.HasActedThisTurn) {
                 ActionSystem.Instance.ExecuteWait(enemy);
             }
@@ -194,6 +204,23 @@ public class TurnManager : MonoBehaviour {
 
         yield return new WaitForSeconds(0.2f);
         EndUnitTurn();
+    }
+
+    IEnumerator EnemyAttackCoroutine(Unit enemy, Unit target) {
+        var result = DamageCalculator.CalculateDamage(enemy, target);
+
+        // Show dice roll
+        var diceGo = new GameObject("DiceRoll", typeof(DiceRollDisplay), typeof(RectTransform));
+        bool diceDone = false;
+        diceGo.GetComponent<DiceRollDisplay>().Init(result, () => diceDone = true);
+        while (!diceDone) yield return null;
+
+        ActionSystem.Instance.ExecuteAttack(enemy, target, result);
+
+        // Camera shake via BattleController
+        var cam = FindObjectOfType<CameraController>();
+        if (cam != null && result.hit && result.damage > 0)
+            cam.Shake(result.crit ? 0.25f : 0.1f, 0.15f);
     }
 
     // ===== CONDITIONS =====

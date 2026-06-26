@@ -7,6 +7,7 @@ public class BattleHUD : MonoBehaviour {
     Canvas _canvas;
     Text _turnTxt;
     Button[] _btns;
+    Image[] _usedIcons; // overlay "used" indicator
     GameObject _sideRoot;
     Image _hpFill;
     Text _nameT, _clsT, _hpT, _acT;
@@ -68,7 +69,7 @@ public class BattleHUD : MonoBehaviour {
         return g;
     }
 
-    // Vertical container — anak-anaknya auto layout ke bawah
+    // Vertical container — auto layout ke bawah
     GameObject VBox(Transform p) {
         var g=Make("vbox",p);
         Stretch(g);
@@ -77,7 +78,7 @@ public class BattleHUD : MonoBehaviour {
         vl.childForceExpandWidth=true;
         vl.childForceExpandHeight=false;
         vl.spacing=4;
-        vl.padding=new RectOffset(8,8,12,8);
+        vl.padding=new RectOffset(10,10,14,10);
         return g;
     }
 
@@ -85,6 +86,19 @@ public class BattleHUD : MonoBehaviour {
     void BG(GameObject g, Color c) {
         var i=Add<Image>(g);
         i.color=c; i.raycastTarget=false;
+    }
+
+    // Background with subtle border gradient effect (two overlays)
+    void StylePanel(GameObject p) {
+        // Outer dark border effect via inset shadow color
+        var outer=Make("outer",p.transform);
+        Stretch(outer);
+        var oi=Add<Image>(outer);
+        oi.color=new Color(0.08f,0.06f,0.04f,0.4f); // subtle dark edge
+        oi.raycastTarget=false;
+        var or=outer.GetComponent<RectTransform>();
+        or.offsetMin=new Vector2(-1,-1);
+        or.offsetMax=new Vector2(1,1);
     }
 
     // Text stretch
@@ -178,52 +192,70 @@ public class BattleHUD : MonoBehaviour {
         var bot=Bar(cgo.transform,0,90);
         BG(bot,BAR);
         _btns=new Button[5];
+        _usedIcons=new Image[4];
         string[] lbls={"Move","Attack","Defend","Wait","End Turn"};
         float[] bx={-240,-80,80,240,420};
         for(int i=0;i<5;i++){
             _btns[i]=Btn(bot.transform,lbls[i],i<4?110:120,44,
                 i<4?UIColorPalette.StoneMid:UIColorPalette.DeepRed,Color.white,16,bx[i],0);
+            // Used indicator overlay (untuk Move/Attack/Defend/Wait)
+            if(i<4){
+                var ogo=new GameObject("used",typeof(Image));
+                var ort=ogo.GetComponent<RectTransform>();
+                ort.SetParent(_btns[i].transform,false);
+                ort.anchorMin=Vector2.zero;ort.anchorMax=Vector2.one;
+                ort.sizeDelta=Vector2.zero;
+                var oi=ogo.GetComponent<Image>();
+                oi.color=new Color(0,0,0,0.5f);
+                oi.raycastTarget=false;
+                oi.gameObject.SetActive(false);
+                // Checkmark
+                var cgo2=new GameObject("check",typeof(Text));
+                var crt=cgo2.GetComponent<RectTransform>();
+                crt.SetParent(ogo.transform,false);
+                crt.anchorMin=new Vector2(1,1);
+                crt.anchorMax=new Vector2(1,1);
+                crt.pivot=new Vector2(1,1);
+                crt.sizeDelta=new Vector2(20,20);
+                crt.anchoredPosition=new Vector2(-2,-2);
+                var ctxt=cgo2.GetComponent<Text>();
+                ctxt.text="✓";
+                ctxt.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                ctxt.fontSize=16;
+                ctxt.fontStyle=FontStyle.Bold;
+                ctxt.color=Color.green;
+                ctxt.alignment=TextAnchor.MiddleCenter;
+                ctxt.raycastTarget=false;
+                _usedIcons[i]=oi;
+            }
         }
 
         // ───── SIDE PANEL ─────
-        _sideRoot=Fixed(cgo.transform,Vector2.one,Vector2.one,new(230,330),new(-8,-58)).gameObject;
-        BG(_sideRoot,PNL);
-        AddBorder(_sideRoot);
+        _sideRoot=Fixed(cgo.transform,Vector2.one,Vector2.one,new(230,320),new(-6,-56)).gameObject;
+        var si=Add<Image>(_sideRoot);
+        si.color=BAR; // same as bars
+        si.raycastTarget=false;
 
-        var vbox=VBox(_sideRoot.transform);
-        var vl=vbox.GetComponent<VerticalLayoutGroup>();
+        var vbox=Make("vbox",_sideRoot.transform);
+        Stretch(vbox);
+        var vl=vbox.AddComponent<VerticalLayoutGroup>();
+        vl.childAlignment=TextAnchor.UpperCenter;
+        vl.childForceExpandWidth=true;
+        vl.childForceExpandHeight=false;
+        vl.spacing=2;
+        vl.padding=new RectOffset(10,10,12,8);
 
-        _nameT=Txt(vbox.transform,"---",18,UIColorPalette.ParchmentLight,TextAnchor.MiddleCenter);
-        _clsT=Txt(vbox.transform,"",14,UIColorPalette.GoldTrim,TextAnchor.MiddleCenter);
+        _nameT=Txt(vbox.transform,"---",22,UIColorPalette.ParchmentLight,TextAnchor.MiddleCenter);
+        _clsT=Txt(vbox.transform,"",16,UIColorPalette.GoldTrim,TextAnchor.MiddleCenter);
 
-        // Spacer
-        var sp=Make("sp",vbox.transform);
-        sp.GetComponent<RectTransform>().sizeDelta=new Vector2(0,4);
-
-        _hpFill=HPBar(vbox.transform,210,16);
-        var hpGo=_hpFill.transform.parent.gameObject;
-
-        _hpT=Txt(vbox.transform,"HP: 0/0",14,Color.white,TextAnchor.MiddleCenter);
-
-        // 2-column stat grid
-        var grid=Make("grid",vbox.transform);
-        var gr=grid.GetComponent<RectTransform>();
-        // Let VerticalLayoutGroup handle size
-        var gl=Add<GridLayoutGroup>(grid);
-        gl.constraint=GridLayoutGroup.Constraint.FixedColumnCount;
-        gl.constraintCount=2;
-        gl.cellSize=new Vector2(100,20);
-        gl.spacing=new Vector2(8,2);
-        gl.startCorner=GridLayoutGroup.Corner.UpperLeft;
-        gl.startAxis=GridLayoutGroup.Axis.Horizontal;
-        gl.childAlignment=TextAnchor.MiddleCenter;
-
-        _acT=Txt(vbox.transform,"AC: --",14,UIColorPalette.ParchmentLight,TextAnchor.MiddleCenter);
+        _hpFill=HPBar(vbox.transform,190,16);
+        _hpT=Txt(vbox.transform,"HP: 0/0",15,Color.white,TextAnchor.MiddleCenter);
+        _acT=Txt(vbox.transform,"AC: --",15,UIColorPalette.ParchmentLight,TextAnchor.MiddleCenter);
 
         _statT=new Text[6];
         string[] sn={"STR","DEX","CON","INT","WIS","CHA"};
         for(int i=0;i<6;i++){
-            _statT[i]=Txt(grid.transform,$"{sn[i]}: --",13,UIColorPalette.ParchmentDark,TextAnchor.MiddleLeft);
+            _statT[i]=Txt(vbox.transform,$"{sn[i]}: --",15,UIColorPalette.ParchmentDark,TextAnchor.MiddleCenter);
         }
 
         _sideRoot.SetActive(false);
@@ -266,7 +298,7 @@ public class BattleHUD : MonoBehaviour {
     }
 
     void OnAtk(Unit a,Unit d,AttackResult r){
-        var g=new GameObject("dp",typeof(DamagePopup));
+        var g=new GameObject("dp",typeof(DamagePopup),typeof(RectTransform));
         g.transform.SetParent(_canvas.transform,false);
         g.GetComponent<DamagePopup>().Init(d.transform.position,r);
         if(TurnManager.Instance?.ActiveUnit!=null)Refr(TurnManager.Instance.ActiveUnit);
@@ -281,6 +313,12 @@ public class BattleHUD : MonoBehaviour {
         _btns[1].interactable=!u.HasActedThisTurn;
         _btns[2].interactable=!u.HasActedThisTurn;
         _btns[3].interactable=!u.HasActedThisTurn;
+        // Toggle used overlays
+        if(_usedIcons==null||_usedIcons.Length<4)return;
+        _usedIcons[0].gameObject.SetActive(u.HasMovedThisTurn);
+        _usedIcons[1].gameObject.SetActive(u.HasActedThisTurn);
+        _usedIcons[2].gameObject.SetActive(u.HasActedThisTurn);
+        _usedIcons[3].gameObject.SetActive(u.HasActedThisTurn);
     }
 
     void ShowUnit(Unit u){

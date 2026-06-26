@@ -5,6 +5,11 @@ public struct AttackResult {
     public bool crit;
     public bool miss;
     public int damage;
+    public int attackRoll;      // d20 roll (1-20)
+    public int attackBonus;     // attacker's attack bonus
+    public int totalAttack;     // attackRoll + attackBonus
+    public int targetAC;        // defender's AC (including defend bonus)
+    public string damageNotation; // e.g. "1d10+3"
     public string log;
 
     public override string ToString() => log;
@@ -31,6 +36,12 @@ public static class DamageCalculator {
         int totalAttack = attackRoll + attackBonus;
         int targetAc = defender.Data.armorClass;
         if (defender.IsDefending) targetAc += 4; // +4 AC kalau defend
+
+        result.attackRoll = attackRoll;
+        result.attackBonus = attackBonus;
+        result.totalAttack = totalAttack;
+        result.targetAC = targetAc;
+        result.damageNotation = attacker.Data.weaponDamage;
 
         result.crit = attackRoll == 20;
         result.miss = attackRoll == 1;

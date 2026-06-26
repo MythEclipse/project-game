@@ -31,20 +31,31 @@ public static class UIColorPalette {
     public static readonly Color DamageHeal = new Color(0.00f, 1.00f, 0.30f);
 
     public static Color GetClassColor(UnitClass cls) => cls switch {
-        UnitClass.Fighter => new Color(0.80f, 0.20f, 0.20f),
-        UnitClass.Rogue   => new Color(0.20f, 0.60f, 0.20f),
-        UnitClass.Wizard  => new Color(0.20f, 0.30f, 0.80f),
-        UnitClass.Cleric  => new Color(0.90f, 0.80f, 0.20f),
+        UnitClass.Fighter => new Color(0.85f, 0.15f, 0.15f), // more saturated red
+        UnitClass.Rogue   => new Color(0.15f, 0.65f, 0.15f), // more saturated green
+        UnitClass.Wizard  => new Color(0.15f, 0.35f, 0.90f), // brighter blue
+        UnitClass.Cleric  => new Color(0.95f, 0.85f, 0.15f), // brighter gold
         _                 => Color.gray
     };
 
     public static Color GetAccentColor(UnitClass cls) => cls switch {
-        UnitClass.Fighter => new Color(0.60f, 0.10f, 0.10f),
-        UnitClass.Rogue   => new Color(0.10f, 0.40f, 0.10f),
-        UnitClass.Wizard  => new Color(0.10f, 0.15f, 0.60f),
-        UnitClass.Cleric  => new Color(0.70f, 0.60f, 0.10f),
+        UnitClass.Fighter => new Color(0.55f, 0.08f, 0.08f), // darker red (armor)
+        UnitClass.Rogue   => new Color(0.10f, 0.35f, 0.10f), // dark green (hood)
+        UnitClass.Wizard  => new Color(0.50f, 0.10f, 0.80f), // purple arcane (robe)
+        UnitClass.Cleric  => new Color(0.80f, 0.70f, 0.15f), // muted gold (vestments)
         _                 => Color.gray
     };
+
+    // Team colors: biru untuk ally, merah untuk enemy
+    public static readonly Color AllyBlue    = new Color(0.25f, 0.40f, 0.80f); // medium blue
+    public static readonly Color AllyDark    = new Color(0.15f, 0.25f, 0.55f); // dark blue for accents
+    public static readonly Color EnemyRed    = new Color(0.80f, 0.20f, 0.15f); // medium red
+    public static readonly Color EnemyDark   = new Color(0.55f, 0.10f, 0.08f); // dark red for accents
+
+    public static Color GetTeamColor(bool isPlayer, bool dark = false) {
+        if (isPlayer) return dark ? AllyDark : AllyBlue;
+        return dark ? EnemyDark : EnemyRed;
+    }
 
     public static Color HpColor(float ratio) {
         if (ratio > 0.66f) return HpGreen;
