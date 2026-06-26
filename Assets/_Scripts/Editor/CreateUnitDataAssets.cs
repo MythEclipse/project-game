@@ -33,7 +33,9 @@ public class CreateUnitDataAssets {
             asset.isPlayerControlled = c.player;
             asset.moveRange = 5;
 
-            string path = $"{folder}/{c.name}.asset";
+            string resourcesFolder = "Assets/Resources/Data/Characters";
+            System.IO.Directory.CreateDirectory(resourcesFolder);
+            string path = $"{resourcesFolder}/{c.name}.asset";
             AssetDatabase.CreateAsset(asset, path);
             Debug.Log($"Created: {path}");
         }

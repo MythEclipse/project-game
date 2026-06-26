@@ -8,9 +8,7 @@ public class DiceRollDisplay : MonoBehaviour {
     Image _panelBg;
 
     static Canvas GetHUDCanvas() {
-        foreach (var c in FindObjectsOfType<Canvas>())
-            if (c.renderMode == RenderMode.ScreenSpaceOverlay) return c;
-        return null;
+        return UIHelper.FindHUDCanvas();
     }
 
     public void Init(AttackResult r, System.Action onComplete) {
@@ -27,7 +25,7 @@ public class DiceRollDisplay : MonoBehaviour {
         rt.anchorMin = new Vector2(0.5f, 0.5f);
         rt.anchorMax = new Vector2(0.5f, 0.5f);
         rt.pivot = new Vector2(0.5f, 0.5f);
-        rt.sizeDelta = new Vector2(160 * s, 110 * s);
+        rt.sizeDelta = new Vector2(220 * s, 140 * s);
 
         _panelBg = gameObject.AddComponent<Image>();
         _panelBg.color = new Color(0.06f, 0.04f, 0.02f, 0.92f);

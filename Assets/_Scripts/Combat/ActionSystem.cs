@@ -73,6 +73,10 @@ public class ActionSystem : MonoBehaviour {
         OnActionExecuted?.Invoke(attacker, ActionType.Attack);
         OnAttackPerformed?.Invoke(attacker, defender, result);
 
+        // Log ke CombatLog
+        if (CombatLog.Instance != null)
+            CombatLog.Instance.LogAttack(attacker, defender, result);
+
         Debug.Log($"{attacker.Data?.unitName ?? "Unit"} attacks {defender.Data?.unitName ?? "Target"}: {result.log}");
     }
 
@@ -83,6 +87,8 @@ public class ActionSystem : MonoBehaviour {
         unit.IsDefending = true;
         unit.HasActedThisTurn = true;
         OnActionExecuted?.Invoke(unit, ActionType.Defend);
+        if (CombatLog.Instance != null)
+            CombatLog.Instance.Log($"{unit.Data?.unitName ?? "Unit"} defends (+4 AC)");
         Debug.Log($"{unit.Data?.unitName ?? "Unit"} is defending! (+4 AC)");
     }
 

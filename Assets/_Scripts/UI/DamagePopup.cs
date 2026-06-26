@@ -2,23 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-/// <summary>Floating damage/heal text — di-parent ke HUD Canvas biar scaling otomatis.</summary>
+/// <summary>Floating damage/heal text anchored to world position via HUD Canvas.</summary>
 public class DamagePopup : MonoBehaviour {
     Text _text;
     Canvas _hudCanvas;
+    RectTransform _canvasRect;
     Vector3 _worldPos;
     float _duration = 1.2f;
     float _riseSpeed = 0.6f;
     Vector2 _drift;
 
     void Awake() {
-        _hudCanvas = GetHUDCanvas();
-    }
-
-    static Canvas GetHUDCanvas() {
-        foreach (var c in FindObjectsOfType<Canvas>())
-            if (c.renderMode == RenderMode.ScreenSpaceOverlay) return c;
-        return null;
+        _hudCanvas = UIHelper.FindHUDCanvas();
+        if (_hudCanvas != null)
+            _canvasRect = _hudCanvas.transform as RectTransform;
     }
 
     public void Init(Vector3 worldPos, AttackResult result, bool isHeal = false) {
@@ -27,8 +24,9 @@ public class DamagePopup : MonoBehaviour {
         transform.SetParent(_hudCanvas.transform, false);
 
         var rt = GetComponent<RectTransform>();
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.zero;
+        // Anchor di tengah, jadi anchoredPosition (0,0) = center screen
+        rt.anchorMin = new Vector2(0.5f, 0.5f);
+        rt.anchorMax = new Vector2(0.5f, 0.5f);
         rt.pivot = new Vector2(0.5f, 0.5f);
 
         _text = gameObject.AddComponent<Text>();
@@ -36,18 +34,15 @@ public class DamagePopup : MonoBehaviour {
         _text.alignment = TextAnchor.MiddleCenter;
         _text.supportRichText = true;
 
-        // Scale font size based on reference height
         float refH = 1080f;
-        float scale = (_hudCanvas.GetComponent<CanvasScaler>()?.referenceResolution.y ?? refH) / refH;
-        // Actual screen size factor
-        float screenScale = Screen.height / refH;
+        float scale = Screen.height / refH;
 
         if (isHeal) {
             _text.text = $"+{result.damage}";
-            _text.fontSize = Mathf.RoundToInt(26 * screenScale);
+            _text.fontSize = Mathf.RoundToInt(24 * scale);
             _text.fontStyle = FontStyle.Bold;
             _text.color = UIColorPalette.DamageHeal;
-            rt.sizeDelta = new Vector2(160 * screenScale, 40 * screenScale);
+            rt.sizeDelta = new Vector2(140 * scale, 36 * scale);
             _drift = new Vector2(Random.Range(-20f, 20f), 0);
             _duration = 1.0f;
             _riseSpeed = 0.5f;
@@ -57,26 +52,26 @@ public class DamagePopup : MonoBehaviour {
 
         if (result.miss) {
             _text.text = "MISS";
-            _text.fontSize = Mathf.RoundToInt(18 * screenScale);
+            _text.fontSize = Mathf.RoundToInt(18 * scale);
             _text.fontStyle = FontStyle.Italic;
             _text.color = UIColorPalette.DamageMiss;
-            rt.sizeDelta = new Vector2(140 * screenScale, 30 * screenScale);
+            rt.sizeDelta = new Vector2(120 * scale, 28 * scale);
             _drift = new Vector2(Random.Range(-15f, 15f), 0);
         } else if (result.crit) {
             _text.text = $"CRIT! {result.damage}";
-            _text.fontSize = Mathf.RoundToInt(32 * screenScale);
+            _text.fontSize = Mathf.RoundToInt(30 * scale);
             _text.fontStyle = FontStyle.Bold;
             _text.color = UIColorPalette.DamageCrit;
-            rt.sizeDelta = new Vector2(240 * screenScale, 50 * screenScale);
+            rt.sizeDelta = new Vector2(220 * scale, 46 * scale);
             _drift = Vector2.zero;
             _duration = 1.5f;
             _riseSpeed = 0.5f;
         } else {
             _text.text = $"-{result.damage}";
-            _text.fontSize = Mathf.RoundToInt(26 * screenScale);
+            _text.fontSize = Mathf.RoundToInt(24 * scale);
             _text.fontStyle = FontStyle.Bold;
             _text.color = result.damage <= 3 ? UIColorPalette.DamageMiss : UIColorPalette.DamageHit;
-            rt.sizeDelta = new Vector2(160 * screenScale, 40 * screenScale);
+            rt.sizeDelta = new Vector2(140 * scale, 36 * scale);
             _drift = new Vector2(Random.Range(-30f, 30f), 0);
         }
 
@@ -104,8 +99,12 @@ public class DamagePopup : MonoBehaviour {
             Vector3 w = _worldPos + Vector3.up * _riseSpeed * p;
             Vector3 sp = Camera.main.WorldToScreenPoint(w);
             var rt = GetComponent<RectTransform>();
-            rt.anchoredPosition = (Vector2)sp - new Vector2(Screen.width / 2f, Screen.height / 2f)
-                + new Vector2(_drift.x * p, _drift.y);
+
+            // Konversi screen-space ke canvas-local coordinates (handle scaling)
+            Vector2 localPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _canvasRect, sp, null, out localPos);
+            rt.anchoredPosition = localPos + new Vector2(_drift.x * p, _drift.y);
 
             if (_text != null) {
                 float a = p > 0.5f ? 1f - (p - 0.5f) / 0.5f : 1f;

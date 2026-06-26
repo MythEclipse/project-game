@@ -151,15 +151,35 @@ public class TurnManager : MonoBehaviour {
         var grid = GridManager.Instance;
         var origin = enemy.GridPos;
 
-        Unit closestTarget = null;
-        int closestDist = int.MaxValue;
-
-        foreach (var player in _playerUnits.Where(p => p.IsAlive)) {
-            int dist = grid.GetDistance(origin, player.GridPos);
-            if (dist >= 0 && dist < closestDist) { closestDist = dist; closestTarget = player; }
+        // === TARGET PRIORITIZATION ===
+        // Prioritaskan: low-HP > Wizard/Cleric > Fighter > tanky
+        var validTargets = _playerUnits.Where(p => p.IsAlive).ToList();
+        if (validTargets.Count == 0) {
+            ActionSystem.Instance.ExecuteWait(enemy);
+            yield return new WaitForSeconds(0.2f);
+            EndUnitTurn();
+            yield break;
         }
 
-        if (closestTarget == null) {
+        Unit bestTarget = null;
+        int bestScore = int.MinValue;
+        foreach (var p in validTargets) {
+            int dist = grid.GetDistance(origin, p.GridPos);
+            if (dist < 0) continue;
+            int score = 0;
+            // Prioritize low HP
+            float hpPct = (float)p.CurrentHp / p.Data.maxHp;
+            score += Mathf.RoundToInt((1f - hpPct) * 20);
+            // Prioritize squishy classes
+            if (p.Data.unitClass == UnitClass.Wizard) score += 5;
+            if (p.Data.unitClass == UnitClass.Cleric) score += 4;
+            if (p.Data.unitClass == UnitClass.Rogue) score += 2;
+            // Pinalti jarak
+            score -= dist;
+            if (score > bestScore) { bestScore = score; bestTarget = p; }
+        }
+
+        if (bestTarget == null) {
             ActionSystem.Instance.ExecuteWait(enemy);
             yield return new WaitForSeconds(0.2f);
             EndUnitTurn();
@@ -167,38 +187,50 @@ public class TurnManager : MonoBehaviour {
         }
 
         int atkRange = enemy.Data.attackRange;
-        int targetDist = Mathf.Abs(origin.x - closestTarget.GridPos.x) + Mathf.Abs(origin.y - closestTarget.GridPos.y);
+        int targetDist = Mathf.Abs(origin.x - bestTarget.GridPos.x) + Mathf.Abs(origin.y - bestTarget.GridPos.y);
+        float hpPercent = (float)enemy.CurrentHp / enemy.Data.maxHp;
+
+        // === FLEE BEHAVIOR: low HP → move away from nearest threat ===
+        if (hpPercent < 0.25f && targetDist < atkRange + 2) {
+            // Try to move away
+            var walkable = ActionRangeCalculator.GetWalkableTiles(origin, enemy.Data.moveRange, grid);
+            Tile retreatTile = null;
+            int retreatDist = int.MinValue;
+            foreach (var tile in walkable) {
+                int d = Mathf.Abs(tile.GridPos.x - bestTarget.GridPos.x) + Mathf.Abs(tile.GridPos.y - bestTarget.GridPos.y);
+                if (d > retreatDist) { retreatDist = d; retreatTile = tile; }
+            }
+            if (retreatTile != null && retreatDist > targetDist) {
+                yield return StartCoroutine(ActionSystem.Instance.ExecuteMove(enemy, retreatTile));
+            }
+            // After retreating, defend instead of attack
+            ActionSystem.Instance.ExecuteDefend(enemy);
+            enemy.SetDefendingVisual(true);
+            yield return new WaitForSeconds(0.2f);
+            EndUnitTurn();
+            yield break;
+        }
 
         if (targetDist <= atkRange) {
-            // Attack with dice roll animation
-            if (BattleController.Instance != null) {
-                yield return StartCoroutine(EnemyAttackCoroutine(enemy, closestTarget));
-            } else {
-                ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
-                yield return new WaitForSeconds(0.5f);
-            }
+            yield return StartCoroutine(EnemyAttackCoroutine(enemy, bestTarget));
         } else {
             var walkable = ActionRangeCalculator.GetWalkableTiles(origin, enemy.Data.moveRange, grid);
             Tile bestTile = null;
             int bestDist = int.MaxValue;
             foreach (var tile in walkable) {
-                int d = Mathf.Abs(tile.GridPos.x - closestTarget.GridPos.x) + Mathf.Abs(tile.GridPos.y - closestTarget.GridPos.y);
+                int d = Mathf.Abs(tile.GridPos.x - bestTarget.GridPos.x) + Mathf.Abs(tile.GridPos.y - bestTarget.GridPos.y);
                 if (d < bestDist) { bestDist = d; bestTile = tile; }
             }
             if (bestTile != null && bestDist < targetDist) {
                 yield return StartCoroutine(ActionSystem.Instance.ExecuteMove(enemy, bestTile));
             }
-            int newDist = Mathf.Abs(enemy.GridPos.x - closestTarget.GridPos.x) + Mathf.Abs(enemy.GridPos.y - closestTarget.GridPos.y);
+            int newDist = Mathf.Abs(enemy.GridPos.x - bestTarget.GridPos.x) + Mathf.Abs(enemy.GridPos.y - bestTarget.GridPos.y);
             if (newDist <= atkRange) {
-                // Attack with dice roll animation
-                if (BattleController.Instance != null) {
-                    yield return StartCoroutine(EnemyAttackCoroutine(enemy, closestTarget));
-                } else {
-                    ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
-                    yield return new WaitForSeconds(0.5f);
-                }
+                yield return StartCoroutine(EnemyAttackCoroutine(enemy, bestTarget));
             } else if (!enemy.HasActedThisTurn) {
-                ActionSystem.Instance.ExecuteWait(enemy);
+                // Strategic defend: if can't attack, defend for +4 AC
+                ActionSystem.Instance.ExecuteDefend(enemy);
+                enemy.SetDefendingVisual(true);
             }
         }
 
@@ -207,7 +239,24 @@ public class TurnManager : MonoBehaviour {
     }
 
     IEnumerator EnemyAttackCoroutine(Unit enemy, Unit target) {
+        // Check if enemy has shield buff — apply +5 AC for this attack
+        if (target.IsShielded) {
+            Debug.Log($"{target.Data.unitName}'s Shield of Faith is active!");
+        }
+
         var result = DamageCalculator.CalculateDamage(enemy, target);
+
+        // Check if target is blessed (reroll first miss once)
+        if (!result.hit && result.miss == false && target.IsBlessed) {
+            // Bless gives +1d4 to AC for this attack — re-check
+            int blessBonus = DiceRoller.Roll(4);
+            if (result.totalAttack + blessBonus >= result.targetAC) {
+                result.hit = true;
+                result.damage = DiceRoller.RollDamage(enemy.Data.weaponDamage);
+                result.log = $"<color=white>Hit!</color> (blessed! +{blessBonus} on attack)";
+            }
+            target.IsBlessed = false; // bless consumed
+        }
 
         // Show dice roll
         var diceGo = new GameObject("DiceRoll", typeof(DiceRollDisplay), typeof(RectTransform));
@@ -217,7 +266,7 @@ public class TurnManager : MonoBehaviour {
 
         ActionSystem.Instance.ExecuteAttack(enemy, target, result);
 
-        // Camera shake via BattleController
+        // Camera shake
         var cam = FindObjectOfType<CameraController>();
         if (cam != null && result.hit && result.damage > 0)
             cam.Shake(result.crit ? 0.25f : 0.1f, 0.15f);

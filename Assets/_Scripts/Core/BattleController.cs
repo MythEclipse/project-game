@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class BattleController : MonoBehaviour {
@@ -26,6 +27,7 @@ public class BattleController : MonoBehaviour {
     private bool _isAnimating;
     private AttackResult _lastAttackResult;
     private Unit _lastDefender;
+    private SpellData _pendingSpell;
 
     private static readonly Color MoveColor = new Color(0.2f, 0.8f, 0.2f, 0.5f);
     private static readonly Color AttackColor = new Color(0.8f, 0.2f, 0.2f, 0.5f);
@@ -60,14 +62,25 @@ public class BattleController : MonoBehaviour {
         if (_unitPrefab == null || _playerUnitParent == null || _enemyUnitParent == null) return;
 
         var allData = new List<UnitData>();
+
+        // Production: load dari Resources (wajib ada folder Assets/Resources/Data/Characters/)
+        var loaded = Resources.LoadAll<UnitData>("Data/Characters");
+        if (loaded != null && loaded.Length > 0) {
+            allData.AddRange(loaded);
+        }
+
 #if UNITY_EDITOR
-        var guids = UnityEditor.AssetDatabase.FindAssets("t:UnitData");
-        foreach (var guid in guids) {
-            var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
-            var data = UnityEditor.AssetDatabase.LoadAssetAtPath<UnitData>(path);
-            if (data != null) allData.Add(data);
+        // Editor: fallback ke AssetDatabase (biar support asset yang belum di Resources)
+        if (allData.Count == 0) {
+            var guids = UnityEditor.AssetDatabase.FindAssets("t:UnitData");
+            foreach (var guid in guids) {
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                var data = UnityEditor.AssetDatabase.LoadAssetAtPath<UnitData>(path);
+                if (data != null) allData.Add(data);
+            }
         }
 #endif
+
         var playerData = new List<UnitData>();
         var enemyData = new List<UnitData>();
         foreach (var d in allData) {
@@ -75,7 +88,7 @@ public class BattleController : MonoBehaviour {
         }
 
         if (playerData.Count == 0 || enemyData.Count == 0) {
-            Debug.LogWarning("Need both player and enemy UnitData assets. Run DNDTactics/Create Unit Data Assets menu.");
+            Debug.LogWarning("Need both player and enemy UnitData assets. Place UnitData assets in Assets/Resources/Data/Characters/");
             return;
         }
 
@@ -227,6 +240,13 @@ public class BattleController : MonoBehaviour {
                     }
                 }
                 break;
+            case ActionType.Spell:
+                if (_pendingSpell != null && SpellSystem.CastSpell(_selectedUnit, clickedTile, _pendingSpell, OnSpellResult)) {
+                    _isWaitingForTarget = false; ClearHighlights();
+                    _turnManager.SubState = TurnSubState.SelectingAction;
+                    _pendingSpell = null;
+                }
+                break;
         }
     }
 
@@ -236,6 +256,12 @@ public class BattleController : MonoBehaviour {
     public void OnAttackButton() => BeginAction(ActionType.Attack);
     public void OnDefendButton() => BeginAction(ActionType.Defend);
     public void OnWaitButton() => BeginAction(ActionType.Wait);
+    public void OnSpellButton(int spellIndex) {
+        var cls = _selectedUnit?.Data?.unitClass ?? UnitClass.Fighter;
+        if (!SpellSystem.SpellsByClass.TryGetValue(cls, out var spells)) return;
+        if (spellIndex < 0 || spellIndex >= spells.Length) return;
+        BeginSpell(spells[spellIndex]);
+    }
 
     void BeginAction(ActionType actionType) {
         if (_turnManager.CurrentPhase != BattlePhase.Battle || _selectedUnit == null || !_selectedUnit.IsAlive) return;
@@ -263,6 +289,42 @@ public class BattleController : MonoBehaviour {
                 _actionSystem.ExecuteWait(_selectedUnit);
                 _turnManager.EndUnitTurn();
                 break;
+            case ActionType.Spell:
+                // Handled via OnSpellButton → BeginSpell
+                break;
+        }
+    }
+
+    void BeginSpell(SpellData spell) {
+        if (_selectedUnit == null || _selectedUnit.HasActedThisTurn) return;
+        _isWaitingForTarget = true;
+        _pendingAction = ActionType.Spell;
+        _pendingSpell = spell;
+        _turnManager.SubState = TurnSubState.SelectingTarget;
+        ShowSpellRange(spell);
+    }
+
+    void ShowSpellRange(SpellData spell) {
+        if (_selectedUnit == null) return;
+        var tiles = SpellSystem.GetSpellTargetTiles(_selectedUnit.GridPos, spell, GridManager.Instance);
+        Color spellColor = new Color(0.6f, 0.2f, 0.8f, 0.5f); // purple for spells
+        foreach (var t in tiles) {
+            if (t.Occupant != null && t.Occupant.IsAlive)
+                t.SetHighlight(true, spellColor);
+            else
+                t.SetHighlight(true, new Color(0.6f, 0.2f, 0.8f, 0.2f));
+        }
+        _highlightedTiles = tiles;
+    }
+
+    void OnSpellResult(AttackResult result) {
+        // Create floating damage popup like normal attack
+        var dp = new GameObject("SpellPopup", typeof(DamagePopup), typeof(RectTransform));
+        dp.transform.SetParent(FindObjectOfType<BattleHUD>()?.transform, false);
+        // Find target from result
+        var defender = _turnManager?.EnemyUnits?.FirstOrDefault(u => u.IsAlive);
+        if (defender != null) {
+            dp.GetComponent<DamagePopup>().Init(defender.transform.position, result);
         }
     }
 

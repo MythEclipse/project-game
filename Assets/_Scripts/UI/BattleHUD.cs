@@ -13,6 +13,9 @@ public class BattleHUD : MonoBehaviour {
     Text _nameT, _clsT, _hpT, _acT;
     Text[] _statT;
     GameObject _endOver;
+    // Spell buttons — muncul kontekstual per class
+    Button[] _spellBtns;
+    GameObject _spellPanel;
 
     static Color BAR = new Color(.06f,.04f,.02f,.95f);
     static Color PNL = new Color(.14f,.12f,.08f,.95f);
@@ -260,27 +263,48 @@ public class BattleHUD : MonoBehaviour {
 
         _sideRoot.SetActive(false);
 
-        // ───── EVENTS ─────
-        if(TurnManager.Instance!=null){
-            TurnManager.Instance.OnPhaseChanged+=OnPhase;
-            TurnManager.Instance.OnActiveUnitChanged+=OnUnit;
-            TurnManager.Instance.OnBattleEnd+=OnEnd;
-        }
-        if(ActionSystem.Instance!=null){
-            ActionSystem.Instance.OnAttackPerformed+=OnAtk;
-            ActionSystem.Instance.OnActionExecuted+=OnAct;
-        }
-    }
+        // ───── SPELL PANEL (di atas botbar, centered) ─────
+        _spellPanel=Fixed(cgo.transform,new Vector2(.5f,0),new Vector2(.5f,0),new(500,38),new(0,96)).gameObject;
+        BG(_spellPanel,BAR);
+        var hl=_spellPanel.AddComponent<HorizontalLayoutGroup>();
+        hl.childAlignment=TextAnchor.MiddleCenter; hl.childForceExpandWidth=false;
+        hl.childForceExpandHeight=true; hl.spacing=8;
+        hl.padding=new RectOffset(20,20,4,4);
+        _spellPanel.SetActive(false);
 
-    public void InitActions() {
-        var bc=BattleController.Instance; if(bc==null)return;
-        Bind(0,()=>bc.OnMoveButton());
-        Bind(1,()=>bc.OnAttackButton());
-        Bind(2,()=>bc.OnDefendButton());
-        Bind(3,()=>bc.OnWaitButton());
-        Bind(4,()=>{if(TurnManager.Instance?.ActiveUnit!=null)TurnManager.Instance.EndUnitTurn();});
+        // ───── COMBAT LOG ─────
+        var logGo=new GameObject("CombatLog",typeof(CombatLog),typeof(RectTransform));
+        logGo.transform.SetParent(cgo.transform,false);
+        logGo.GetComponent<CombatLog>().Init(_canvas);
+
+        // ───── TILE TOOLTIP ─────
+        var tipGo=new GameObject("TileTooltip",typeof(TileTooltip),typeof(RectTransform));
+        tipGo.GetComponent<TileTooltip>().Init(_canvas);
+
+        // ───── EVENTS + BUTTON BINDINGS ─────
+        if (TurnManager.Instance != null) {
+            TurnManager.Instance.OnPhaseChanged += OnPhase;
+            TurnManager.Instance.OnActiveUnitChanged += OnUnit;
+            TurnManager.Instance.OnBattleEnd += OnEnd;
+        }
+        if (ActionSystem.Instance != null) {
+            ActionSystem.Instance.OnAttackPerformed += OnAtk;
+            ActionSystem.Instance.OnActionExecuted += OnAct;
+        }
+
+        // Bind button listeners sekali, jangan di-rebind setiap ganti unit
+        var bc = BattleController.Instance;
+        if (bc != null) {
+            _btns[0].onClick.AddListener(() => bc.OnMoveButton());
+            _btns[1].onClick.AddListener(() => bc.OnAttackButton());
+            _btns[2].onClick.AddListener(() => bc.OnDefendButton());
+            _btns[3].onClick.AddListener(() => bc.OnWaitButton());
+            _btns[4].onClick.AddListener(() => {
+                if (TurnManager.Instance?.ActiveUnit != null)
+                    TurnManager.Instance.EndUnitTurn();
+            });
+        }
     }
-    void Bind(int i,UnityEngine.Events.UnityAction a){_btns[i].onClick.RemoveAllListeners();_btns[i].onClick.AddListener(a);}
 
     void OnPhase(BattlePhase p){
         if(p==BattlePhase.Battle)_turnTxt.text="⚔ Battle";
@@ -293,7 +317,7 @@ public class BattleHUD : MonoBehaviour {
         _turnTxt.text=$"⚔ {u.Data?.unitName??"Unit"}'s Turn";
         _turnTxt.color=u.IsPlayerControlled?UIColorPalette.ParchmentLight:UIColorPalette.DeepRed;
         if(u.IsPlayerControlled&&TurnManager.Instance.CurrentPhase==BattlePhase.Battle)
-            {ShowUnit(u);ShowBtns(true);Refr(u);InitActions();}
+            {ShowUnit(u);ShowBtns(true);Refr(u);}
         else{_sideRoot.SetActive(false);Hide();}
     }
 
@@ -319,6 +343,9 @@ public class BattleHUD : MonoBehaviour {
         _usedIcons[1].gameObject.SetActive(u.HasActedThisTurn);
         _usedIcons[2].gameObject.SetActive(u.HasActedThisTurn);
         _usedIcons[3].gameObject.SetActive(u.HasActedThisTurn);
+
+        // Refresh spell buttons
+        RefreshSpellButtons(u);
     }
 
     void ShowUnit(Unit u){
@@ -342,6 +369,35 @@ public class BattleHUD : MonoBehaviour {
         vr.sizeDelta=Vector2.zero;vr.anchoredPosition=Vector2.zero;
         _endOver.GetComponent<Image>().color=new Color(0,0,0,.75f);
         Txt(_endOver.transform,w?"✦ VICTORY! ✦":"✟ DEFEAT...",64,w?UIColorPalette.HpGreen:UIColorPalette.DeepRed,TextAnchor.MiddleCenter);
+        // Restart button — reload current scene
+        var rb=Btn(_endOver.transform,"Restart",140,44,UIColorPalette.StoneMid,Color.white,18,0,-100);
+        rb.onClick.RemoveAllListeners();
+        rb.onClick.AddListener(()=>{
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        });
+    }
+
+    void RefreshSpellButtons(Unit u){
+        if(u?.Data==null||_spellPanel==null)return;
+        var cls=u.Data.unitClass;
+        if(!SpellSystem.HasSpells(cls)){_spellPanel.SetActive(false);return;}
+        var spells=SpellSystem.SpellsByClass[cls];
+        _spellPanel.SetActive(u.HasActedThisTurn?false:true);
+
+        // Bersihkan button lama
+        foreach(Transform c in _spellPanel.transform)Destroy(c.gameObject);
+
+        _spellBtns=new Button[spells.Length];
+        int idx=spells.Length-1;
+        foreach(var sp in spells){
+            int i=idx--;
+            var b=Btn(_spellPanel.transform,sp.displayName,120,26,UIColorPalette.PanelBg2,UIColorPalette.GoldTrim,12,0,0);
+            _spellBtns[i]=b;
+            var bc=BattleController.Instance;
+            int si=i;
+            b.onClick.AddListener(()=>{if(bc!=null)bc.OnSpellButton(si);});
+        }
     }
 
     void OnDestroy(){

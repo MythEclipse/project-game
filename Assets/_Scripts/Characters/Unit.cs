@@ -33,6 +33,11 @@ public class Unit : MonoBehaviour {
     public bool HasActedThisTurn { get; set; }
     public bool IsDefending { get; set; }
 
+    // Buffs (spell system)
+    public bool IsBlessed { get; set; }
+    public bool IsShielded { get; set; }
+    public int ShieldTurnsRemaining { get; set; }
+
     void Awake() {
         _sr = GetComponent<SpriteRenderer>();
         if (_sr == null) _sr = gameObject.AddComponent<SpriteRenderer>();
@@ -209,6 +214,21 @@ public class Unit : MonoBehaviour {
         HasMovedThisTurn = false;
         HasActedThisTurn = false;
         IsDefending = false;
+
+        // Shield decay
+        if (IsShielded) {
+            ShieldTurnsRemaining--;
+            if (ShieldTurnsRemaining <= 0) {
+                IsShielded = false;
+                ShieldTurnsRemaining = 0;
+                Debug.Log($"{_unitName}'s Shield of Faith expires");
+            }
+        }
+
+        // Bless expires after one attack
+        if (IsBlessed) {
+            IsBlessed = false;
+        }
     }
 
     public void SetDefendingVisual(bool defending) {
