@@ -12,10 +12,10 @@ public class UnitInfoPanelUI : MonoBehaviour {
     }
 
     void CreateUI() {
-        _root = UIFactory.CreatePanel(transform, new Vector2(220, 280),
-            new Color(0.14f, 0.12f, 0.08f, 0.92f),
+        _root = UIFactory.CreatePanel(transform, new Vector2(240, 300),
+            new Color(0.14f, 0.12f, 0.08f, 0.95f),
             new Vector2(1, 1), new Vector2(1, 1),
-            new Vector2(-10, -10));
+            new Vector2(-12, -12));
 
         // Gold border — generate texture
         var borderGo = new GameObject("Border", typeof(Image));
@@ -26,10 +26,10 @@ public class UnitInfoPanelUI : MonoBehaviour {
         bRect.offsetMin = Vector2.zero;
         bRect.offsetMax = Vector2.zero;
 
-        var tex = new Texture2D(220, 280);
-        for (int x = 0; x < 220; x++)
-            for (int y = 0; y < 280; y++) {
-                bool edge = x < 2 || x >= 218 || y < 2 || y >= 278;
+        var tex = new Texture2D(240, 300);
+        for (int x = 0; x < 240; x++)
+            for (int y = 0; y < 300; y++) {
+                bool edge = x < 2 || x >= 238 || y < 2 || y >= 298;
                 tex.SetPixel(x, y, edge ? UIColorPalette.GoldTrim : Color.clear);
             }
         tex.Apply();

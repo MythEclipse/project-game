@@ -26,6 +26,10 @@ public class BattleController : MonoBehaviour {
     private static readonly Color MoveColor = new Color(0.2f, 0.8f, 0.2f, 0.5f);
     private static readonly Color AttackColor = new Color(0.8f, 0.2f, 0.2f, 0.5f);
     private static readonly Color SelectColor = new Color(0.2f, 0.4f, 0.8f, 0.5f);
+    private int _width => GridManager.Instance != null ? GridManager.Instance.Width : 16;
+    private int _height => GridManager.Instance != null ? GridManager.Instance.Height : 9;
+    private int _playerRow => Mathf.Max(0, _height / 2 - 2);
+    private int _enemyRow => Mathf.Min(_height - 1, _height / 2 + 2);
 
     void Awake() {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -75,19 +79,20 @@ public class BattleController : MonoBehaviour {
         }
 
         var grid = GridManager.Instance;
+        int midX = _width / 2;
         for (int i = 0; i < playerData.Count && i < 4; i++) {
             var unit = Instantiate(_unitPrefab, _playerUnitParent);
             unit.SetData(playerData[i]);
-            var xPos = 2 + i * 3;
-            if (grid.PlaceUnit(unit, new Vector2Int(xPos, 0)))
+            int xPos = midX - 2 + i * 2;
+            if (grid.PlaceUnit(unit, new Vector2Int(xPos, _playerRow)))
                 unit.name = playerData[i].unitName;
         }
 
-        for (int i = 0; i < enemyData.Count && i < 6; i++) {
+        for (int i = 0; i < enemyData.Count && i < 4; i++) {
             var unit = Instantiate(_unitPrefab, _enemyUnitParent);
             unit.SetData(enemyData[i]);
-            var xPos = 2 + i * 3;
-            if (grid.PlaceUnit(unit, new Vector2Int(xPos, grid.Height - 1)))
+            int xPos = midX - 2 + i * 2;
+            if (grid.PlaceUnit(unit, new Vector2Int(xPos, _enemyRow)))
                 unit.name = enemyData[i].unitName;
         }
 

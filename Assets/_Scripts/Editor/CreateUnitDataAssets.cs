@@ -8,12 +8,12 @@ public class CreateUnitDataAssets {
         System.IO.Directory.CreateDirectory(folder);
 
         var classes = new (string name, UnitClass cls, int str, int dex, int con, int intel, int wis, int cha, int hp, int atkRange, string dmg, int ac, bool player)[] {
-            ("FighterData", UnitClass.Fighter, 16, 12, 15, 8, 10, 10, 14, 1, "1d10+3", 18, true),
-            ("RogueData", UnitClass.Rogue, 10, 17, 12, 13, 10, 12, 10, 1, "1d6+3", 15, true),
+            ("FighterData", UnitClass.Fighter, 16, 12, 15, 8, 10, 10, 14, 1, "1d10+3", 16, true),
+            ("RogueData", UnitClass.Rogue, 10, 17, 12, 13, 10, 12, 10, 1, "1d6+3", 14, true),
             ("WizardData", UnitClass.Wizard, 8, 12, 13, 17, 12, 10, 8, 6, "1d8+3", 12, true),
-            ("ClericData", UnitClass.Cleric, 14, 8, 14, 10, 16, 12, 12, 1, "1d6+2", 16, true),
-            ("GoblinData", UnitClass.Rogue, 8, 14, 10, 8, 8, 6, 6, 1, "1d6+2", 13, false),
-            ("SkeletonData", UnitClass.Fighter, 12, 8, 12, 6, 6, 4, 8, 1, "1d8+1", 14, false),
+            ("ClericData", UnitClass.Cleric, 14, 8, 14, 10, 16, 12, 12, 1, "1d6+3", 15, true),
+            ("GoblinData", UnitClass.Rogue, 10, 16, 12, 8, 8, 6, 10, 1, "1d6+3", 14, false),
+            ("SkeletonData", UnitClass.Fighter, 14, 8, 14, 6, 6, 4, 12, 1, "1d8+2", 14, false),
         };
 
         foreach (var c in classes) {

@@ -31,8 +31,10 @@ public class BattleHUD : MonoBehaviour {
             TurnManager.Instance.OnBattleEnd += OnBattleEnd;
         }
 
-        if (ActionSystem.Instance != null)
+        if (ActionSystem.Instance != null) {
             ActionSystem.Instance.OnAttackPerformed += OnAttackPerformed;
+            ActionSystem.Instance.OnActionExecuted += OnActionExecuted;
+        }
     }
 
     void OnPhaseChanged(BattlePhase phase) {
@@ -65,6 +67,18 @@ public class BattleHUD : MonoBehaviour {
 
     void OnAttackPerformed(Unit attacker, Unit defender, AttackResult result) {
         SpawnDamagePopup(defender.transform.position, result);
+        // Refresh action panel setelah attack
+        if (_actionPanel != null && TurnManager.Instance?.ActiveUnit != null) {
+            var u = TurnManager.Instance.ActiveUnit;
+            _actionPanel.Refresh(!u.HasMovedThisTurn, !u.HasActedThisTurn);
+        }
+    }
+
+    void OnActionExecuted(Unit unit, ActionType action) {
+        if (unit == null || !unit.IsPlayerControlled) return;
+        if (action == ActionType.Move && _actionPanel != null) {
+            _actionPanel.Refresh(!unit.HasMovedThisTurn, !unit.HasActedThisTurn);
+        }
     }
 
     void OnBattleEnd(bool playerWon) {

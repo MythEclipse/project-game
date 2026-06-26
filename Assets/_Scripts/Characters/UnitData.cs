@@ -35,7 +35,12 @@ public class UnitData : ScriptableObject {
     public int CharismaMod => GetAbilityModifier(charisma);
 
     /// <summary>
-    /// Attack bonus: STR for melee, DEX for ranged (default STR).
+    /// Attack bonus depends on class:
+    /// Fighter/Cleric → STR, Rogue → DEX, Wizard → INT
     /// </summary>
-    public int AttackBonus => StrengthMod;
+    public int AttackBonus => unitClass switch {
+        UnitClass.Rogue => DexterityMod,
+        UnitClass.Wizard => IntelligenceMod,
+        _ => StrengthMod,
+    };
 }

@@ -11,22 +11,22 @@ public class ActionPanelUI : MonoBehaviour {
     }
 
     void CreateUI() {
-        _root = UIFactory.CreatePanel(transform, new Vector2(620, 64),
-            new Color(0.12f, 0.10f, 0.08f, 0.92f),
+        _root = UIFactory.CreatePanel(transform, new Vector2(640, 70),
+            new Color(0.12f, 0.10f, 0.08f, 0.95f),
             new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-            new Vector2(0, 24));
+            new Vector2(0, 48));
 
-        var border = UIFactory.CreateImage(_root.transform, new Vector2(620, 64), new Color(0,0,0,0));
+        var border = UIFactory.CreateImage(_root.transform, new Vector2(640, 70), new Color(0,0,0,0));
         var bImg = border.GetComponent<Image>();
         // Border: generate border texture prosedural
-        var tex = new Texture2D(620, 64);
-        for (int x = 0; x < 620; x++)
-            for (int y = 0; y < 64; y++) {
-                bool edge = x < 2 || x >= 618 || y < 2 || y >= 62;
+        var tex = new Texture2D(640, 70);
+        for (int x = 0; x < 640; x++)
+            for (int y = 0; y < 70; y++) {
+                bool edge = x < 2 || x >= 638 || y < 2 || y >= 68;
                 tex.SetPixel(x, y, edge ? UIColorPalette.GoldTrim : Color.clear);
             }
         tex.Apply();
-        bImg.sprite = Sprite.Create(tex, new Rect(0, 0, 620, 64), Vector2.one * 0.5f, 1);
+        bImg.sprite = Sprite.Create(tex, new Rect(0, 0, 640, 70), Vector2.one * 0.5f, 1);
         bImg.raycastTarget = false;
         var bRect = border.GetComponent<RectTransform>();
         bRect.anchorMin = Vector2.zero;
@@ -34,11 +34,11 @@ public class ActionPanelUI : MonoBehaviour {
         bRect.offsetMin = Vector2.zero;
         bRect.offsetMax = Vector2.zero;
 
-        // Action buttons
-        _moveBtn = CreateBtn("Move", -195);
-        _attackBtn = CreateBtn("Attack", -65);
-        _defendBtn = CreateBtn("Defend", 65);
-        _waitBtn = CreateBtn("Wait", 195);
+        // Action buttons — spacing lebih rapat
+        _moveBtn = CreateBtn("Move", -200);
+        _attackBtn = CreateBtn("Attack", -67);
+        _defendBtn = CreateBtn("Defend", 67);
+        _waitBtn = CreateBtn("Wait", 200);
 
         // End Turn
         _endTurnBtn = CreateEndTurnBtn();
