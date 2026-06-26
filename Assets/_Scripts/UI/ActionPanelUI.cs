@@ -77,7 +77,7 @@ public class ActionPanelUI : MonoBehaviour {
         _waitBtn.onClick.AddListener(() => BattleController.Instance?.OnWaitButton());
         _endTurnBtn.onClick.AddListener(() => {
             if (TurnManager.Instance?.ActiveUnit != null)
-                TurnManager.Instance.EndPlayerUnitTurn();
+                TurnManager.Instance.EndUnitTurn();
         });
     }
 

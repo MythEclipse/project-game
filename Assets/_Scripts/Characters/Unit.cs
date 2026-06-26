@@ -19,6 +19,12 @@ public class Unit : MonoBehaviour {
     public bool IsPlayerControlled => _data != null ? _data.isPlayerControlled : true;
     public int CurrentHp => _currentHp;
 
+    // Initiative
+    public int InitiativeRoll { get; set; }
+    public void RollInitiative() {
+        InitiativeRoll = DiceRoller.RollD20() + (Data?.DexterityMod ?? 0);
+    }
+
     // Turn state
     public bool HasMovedThisTurn { get; set; }
     public bool HasActedThisTurn { get; set; }

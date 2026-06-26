@@ -15,7 +15,11 @@ public class TurnIndicatorUI : MonoBehaviour {
             new Vector2(0.5f, 1), new Vector2(0.5f, 1),
             new Vector2(0, -10));
 
-        // Gold border — generated procedural 300x50
+        // Set pivot top-center
+        var rt = _root.GetComponent<RectTransform>();
+        rt.pivot = new Vector2(0.5f, 1f);
+
+        // Gold border
         var borderGo = new GameObject("Border", typeof(Image));
         var bRect = borderGo.GetComponent<RectTransform>();
         bRect.SetParent(_root.transform, false);
@@ -35,7 +39,7 @@ public class TurnIndicatorUI : MonoBehaviour {
         bImg.sprite = Sprite.Create(tex, new Rect(0, 0, 300, 50), Vector2.one * 0.5f, 1);
         bImg.raycastTarget = false;
 
-        var labelGo = UIFactory.CreateLabel(_root.transform, "PLAYER TURN", 24,
+        var labelGo = UIFactory.CreateLabel(_root.transform, "", 24,
             UIColorPalette.ParchmentLight, TextAnchor.MiddleCenter);
         var lr = labelGo.GetComponent<RectTransform>();
         lr.anchorMin = Vector2.zero;
@@ -45,17 +49,16 @@ public class TurnIndicatorUI : MonoBehaviour {
         _label = labelGo.GetComponent<Text>();
     }
 
-    public void Show(BattlePhase phase) {
+    public void Show(BattlePhase phase, Unit unit = null) {
         if (_root == null) return;
         switch (phase) {
-            case BattlePhase.PlayerTurn:
-                _label.text = "PLAYER TURN";
-                _label.color = UIColorPalette.ParchmentLight;
-                _root.SetActive(true);
-                break;
-            case BattlePhase.EnemyTurn:
-                _label.text = "ENEMY TURN";
-                _label.color = UIColorPalette.DeepRed;
+            case BattlePhase.Battle:
+                if (unit != null)
+                    _label.text = $"{unit.Data?.unitName ?? "Unit"}'s Turn";
+                else
+                    _label.text = "Battle";
+                _label.color = unit != null && unit.IsPlayerControlled
+                    ? UIColorPalette.ParchmentLight : UIColorPalette.DeepRed;
                 _root.SetActive(true);
                 break;
             case BattlePhase.Victory:

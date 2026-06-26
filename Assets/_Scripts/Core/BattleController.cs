@@ -42,11 +42,9 @@ public class BattleController : MonoBehaviour {
             _turnManager.OnBattleEnd += OnBattleEnd;
         }
 
-        if (_actionSystem != null) {
+        if (_actionSystem != null)
             _actionSystem.OnAttackPerformed += OnAttackPerformed;
-        }
 
-        // Init HUD
         _battleHud = new GameObject("BattleHUD").AddComponent<BattleHUD>();
         _battleHud.Init();
 
@@ -77,23 +75,20 @@ public class BattleController : MonoBehaviour {
         }
 
         var grid = GridManager.Instance;
-
         for (int i = 0; i < playerData.Count && i < 4; i++) {
             var unit = Instantiate(_unitPrefab, _playerUnitParent);
             unit.SetData(playerData[i]);
             var xPos = 2 + i * 3;
-            if (grid.PlaceUnit(unit, new Vector2Int(xPos, 0))) {
+            if (grid.PlaceUnit(unit, new Vector2Int(xPos, 0)))
                 unit.name = playerData[i].unitName;
-            }
         }
 
         for (int i = 0; i < enemyData.Count && i < 6; i++) {
             var unit = Instantiate(_unitPrefab, _enemyUnitParent);
             unit.SetData(enemyData[i]);
             var xPos = 2 + i * 3;
-            if (grid.PlaceUnit(unit, new Vector2Int(xPos, grid.Height - 1))) {
+            if (grid.PlaceUnit(unit, new Vector2Int(xPos, grid.Height - 1)))
                 unit.name = enemyData[i].unitName;
-            }
         }
 
         _turnManager?.StartBattle();
@@ -104,7 +99,7 @@ public class BattleController : MonoBehaviour {
     void OnPhaseChanged(BattlePhase phase) {
         ClearHighlights();
         if (_pulseCoroutine != null) { StopCoroutine(_pulseCoroutine); _pulseCoroutine = null; }
-        if (phase == BattlePhase.PlayerTurn) { _selectedUnit = null; _isWaitingForTarget = false; }
+        if (phase == BattlePhase.Battle) { _selectedUnit = null; _isWaitingForTarget = false; }
     }
 
     void OnActiveUnitChanged(Unit unit) {
@@ -112,26 +107,23 @@ public class BattleController : MonoBehaviour {
         ClearHighlights();
         if (_pulseCoroutine != null) { StopCoroutine(_pulseCoroutine); _pulseCoroutine = null; }
 
-        if (unit != null && _turnManager.CurrentPhase == BattlePhase.PlayerTurn) {
+        if (unit != null && _turnManager.CurrentPhase == BattlePhase.Battle) {
             var tile = GridManager.Instance?.GetTileAtPosition(unit.GridPos);
-            if (tile != null) {
-                _pulseCoroutine = StartCoroutine(PulseHighlight(tile));
-            }
+            if (tile != null) _pulseCoroutine = StartCoroutine(PulseHighlight(tile));
+            FocusOnUnit(unit);
         }
     }
 
     void OnBattleEnd(bool playerWon) {
         ClearHighlights();
         if (_pulseCoroutine != null) { StopCoroutine(_pulseCoroutine); _pulseCoroutine = null; }
-        _selectedUnit = null;
-        _isWaitingForTarget = false;
+        _selectedUnit = null; _isWaitingForTarget = false;
     }
 
     void OnAttackPerformed(Unit attacker, Unit defender, AttackResult result) {
         var cam = FindObjectOfType<CameraController>();
-        if (cam != null && result.hit && result.damage > 0) {
+        if (cam != null && result.hit && result.damage > 0)
             cam.Shake(result.crit ? 0.25f : 0.1f, 0.15f);
-        }
     }
 
     IEnumerator PulseHighlight(Tile tile) {
@@ -146,29 +138,28 @@ public class BattleController : MonoBehaviour {
     // ===== TILE CLICK =====
 
     void HandleTileClicked(Tile clickedTile) {
-        if (_turnManager == null || _turnManager.CurrentPhase != BattlePhase.PlayerTurn) return;
+        if (_turnManager == null || _turnManager.CurrentPhase != BattlePhase.Battle) return;
         if (_turnManager.SubState != TurnSubState.SelectingAction && _turnManager.SubState != TurnSubState.SelectingTarget) return;
 
+        // HANYA active unit yang bisa dikontrol
+        var active = _turnManager.ActiveUnit;
+        if (active == null || !active.IsAlive) return;
+        if (!active.IsPlayerControlled) return;
+        _selectedUnit = active;
+
         if (_isWaitingForTarget) { HandleTargetSelection(clickedTile); return; }
-        if (_selectedUnit == null) return;
 
-        // Klik unit player sendiri → pilih
-        if (clickedTile.Occupant != null && clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive) {
-            _selectedUnit = clickedTile.Occupant;
-            OnActiveUnitChanged(_selectedUnit);
-            return;
-        }
-
-        // Klik musuh → attack langsung
-        if (clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
+        // Klik musuh → serang langsung (kalau player controlled)
+        if (_selectedUnit.IsPlayerControlled &&
+            clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
             && _actionSystem.CanAttackTarget(_selectedUnit, clickedTile)) {
             _actionSystem.ExecuteAttack(_selectedUnit, clickedTile.Occupant);
-            _turnManager.EndPlayerUnitTurn();
+            _turnManager.EndUnitTurn();
             return;
         }
 
         // Klik tile kosong → move
-        if (clickedTile.IsWalkable && _actionSystem.CanMove(_selectedUnit)) {
+        if (_selectedUnit.IsPlayerControlled && clickedTile.IsWalkable && !_selectedUnit.HasMovedThisTurn) {
             var walkable = ActionRangeCalculator.GetWalkableTiles(_selectedUnit.GridPos, _selectedUnit.Data?.moveRange ?? 5, GridManager.Instance);
             if (walkable.Contains(clickedTile)) StartCoroutine(_actionSystem.ExecuteMove(_selectedUnit, clickedTile));
         }
@@ -180,7 +171,7 @@ public class BattleController : MonoBehaviour {
                 if (clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
                     && _actionSystem.CanAttackTarget(_selectedUnit, clickedTile)) {
                     _actionSystem.ExecuteAttack(_selectedUnit, clickedTile.Occupant);
-                    _isWaitingForTarget = false; ClearHighlights(); _turnManager.EndPlayerUnitTurn();
+                    _isWaitingForTarget = false; ClearHighlights(); _turnManager.EndUnitTurn();
                 }
                 break;
             case ActionType.Move:
@@ -204,28 +195,29 @@ public class BattleController : MonoBehaviour {
     public void OnWaitButton() => BeginAction(ActionType.Wait);
 
     void BeginAction(ActionType actionType) {
-        if (_turnManager.CurrentPhase != BattlePhase.PlayerTurn || _selectedUnit == null || !_selectedUnit.IsAlive) return;
+        if (_turnManager.CurrentPhase != BattlePhase.Battle || _selectedUnit == null || !_selectedUnit.IsAlive) return;
+        if (!_selectedUnit.IsPlayerControlled) return;
         ClearHighlights();
 
         switch (actionType) {
             case ActionType.Move:
-                if (!_actionSystem.CanMove(_selectedUnit)) return;
+                if (_selectedUnit.HasMovedThisTurn) return;
                 _isWaitingForTarget = true; _pendingAction = ActionType.Move;
                 _turnManager.SubState = TurnSubState.SelectingTarget; ShowMoveRange();
                 break;
             case ActionType.Attack:
-                if (!_actionSystem.CanAct(_selectedUnit)) return;
+                if (_selectedUnit.HasActedThisTurn) return;
                 _isWaitingForTarget = true; _pendingAction = ActionType.Attack;
                 _turnManager.SubState = TurnSubState.SelectingTarget; ShowAttackRange();
                 break;
             case ActionType.Defend:
                 _actionSystem.ExecuteDefend(_selectedUnit);
                 _selectedUnit.SetDefendingVisual(true);
-                _turnManager.EndPlayerUnitTurn();
+                _turnManager.EndUnitTurn();
                 break;
             case ActionType.Wait:
                 _actionSystem.ExecuteWait(_selectedUnit);
-                _turnManager.EndPlayerUnitTurn();
+                _turnManager.EndUnitTurn();
                 break;
         }
     }

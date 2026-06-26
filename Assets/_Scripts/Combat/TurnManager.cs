@@ -4,21 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum TurnSubState {
-    Idle,
-    SelectingAction,
-    SelectingTarget,
-    Executing,
-    Animating
-}
-
-public enum BattlePhase {
-    Placement,
-    PlayerTurn,
-    EnemyTurn,
-    Victory,
-    Defeat
-}
+public enum TurnSubState { Idle, SelectingAction, SelectingTarget, Executing, Animating }
+public enum BattlePhase { Placement, Battle, Victory, Defeat }
 
 public class TurnManager : MonoBehaviour {
     public static TurnManager Instance { get; private set; }
@@ -33,240 +20,211 @@ public class TurnManager : MonoBehaviour {
     private List<Unit> _allUnits = new List<Unit>();
     private List<Unit> _playerUnits = new List<Unit>();
     private List<Unit> _enemyUnits = new List<Unit>();
-    private int _currentUnitIndex;
+
+    private List<Unit> _turnQueue = new List<Unit>();
+    private int _currentQueueIndex = -1;
+    private int _roundNumber = 0;
 
     public BattlePhase CurrentPhase => _currentPhase;
     public IReadOnlyList<Unit> PlayerUnits => _playerUnits;
     public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
     public Unit ActiveUnit { get; private set; }
+    public int RoundNumber => _roundNumber;
+    public TurnSubState SubState { get; set; } = TurnSubState.Idle;
 
     public event Action<BattlePhase> OnPhaseChanged;
     public event Action<Unit> OnActiveUnitChanged;
-    public event Action<bool> OnBattleEnd; // true = player menang
-
-    public TurnSubState SubState { get; set; } = TurnSubState.Idle;
+    public event Action<bool> OnBattleEnd;
 
     void Awake() {
-        if (Instance != null && Instance != this) {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
     }
 
     void Start() {
-        // Register dari children kalau ada
         RefreshUnitList();
-
-        // Kalo ada unit langsung mulai battle
-        if (_allUnits.Count > 0) {
-            StartBattle();
-        }
+        if (_allUnits.Count > 0) StartBattle();
     }
 
     public void RegisterUnit(Unit unit) {
         if (!_allUnits.Contains(unit)) {
             _allUnits.Add(unit);
-            if (unit.IsPlayerControlled) {
-                if (!_playerUnits.Contains(unit)) _playerUnits.Add(unit);
-            } else {
-                if (!_enemyUnits.Contains(unit)) _enemyUnits.Add(unit);
-            }
+            if (unit.IsPlayerControlled) { if (!_playerUnits.Contains(unit)) _playerUnits.Add(unit); }
+            else { if (!_enemyUnits.Contains(unit)) _enemyUnits.Add(unit); }
         }
     }
 
     void RefreshUnitList() {
-        _allUnits.Clear();
-        _playerUnits.Clear();
-        _enemyUnits.Clear();
-
+        _allUnits.Clear(); _playerUnits.Clear(); _enemyUnits.Clear();
         if (_playerUnitParent != null) {
-            var players = _playerUnitParent.GetComponentsInChildren<Unit>(true);
-            _playerUnits.AddRange(players);
-            _allUnits.AddRange(players);
-            foreach (var u in players) TurnManager.Instance.RegisterUnit(u);
+            var p = _playerUnitParent.GetComponentsInChildren<Unit>(true);
+            _playerUnits.AddRange(p); _allUnits.AddRange(p);
         }
-
         if (_enemyUnitParent != null) {
-            var enemies = _enemyUnitParent.GetComponentsInChildren<Unit>(true);
-            _enemyUnits.AddRange(enemies);
-            _allUnits.AddRange(enemies);
-            foreach (var u in enemies) TurnManager.Instance.RegisterUnit(u);
+            var e = _enemyUnitParent.GetComponentsInChildren<Unit>(true);
+            _enemyUnits.AddRange(e); _allUnits.AddRange(e);
         }
     }
+
+    // ===== BATTLE FLOW =====
 
     public void StartBattle() {
         RefreshUnitList();
-        Debug.Log("=== BATTLE START ===");
-        StartPlayerTurn();
+        _roundNumber = 0;
+        StartNewRound();
     }
 
-    void StartPlayerTurn() {
-        _currentPhase = BattlePhase.PlayerTurn;
-        SubState = TurnSubState.Idle;
+    void StartNewRound() {
+        _roundNumber++;
+        Debug.Log($"=== ROUND {_roundNumber} ===");
+
+        // Roll initiative untuk semua unit alive
+        var alive = _allUnits.Where(u => u.IsAlive).ToList();
+        foreach (var u in alive) u.RollInitiative();
+
+        // Sort by initiative descending, tie-break: player first
+        _turnQueue = alive.OrderByDescending(u => u.InitiativeRoll)
+                          .ThenBy(u => u.IsPlayerControlled ? 0 : 1)
+                          .ToList();
+
+        // Reset turn state semua unit
+        foreach (var u in alive) u.ResetTurnState();
+
+        _currentQueueIndex = -1;
+
+        _currentPhase = BattlePhase.Battle;
         OnPhaseChanged?.Invoke(_currentPhase);
 
-        // Reset state untuk semua player units
-        foreach (var unit in _playerUnits.Where(u => u.IsAlive)) {
-            unit.ResetTurnState();
-        }
-
-        _currentUnitIndex = 0;
-        ActivateNextPlayerUnit();
+        NextTurn();
     }
 
-    void ActivateNextPlayerUnit() {
-        // Cari player unit yang masih alive dan belum selesai
-        for (int i = _currentUnitIndex; i < _playerUnits.Count; i++) {
-            var unit = _playerUnits[i];
-            if (unit != null && unit.IsAlive) {
-                ActiveUnit = unit;
-                _currentUnitIndex = i + 1;
-                SubState = TurnSubState.SelectingAction;
-                OnActiveUnitChanged?.Invoke(unit);
-                Debug.Log($"Player turn: {unit.Data?.unitName ?? "Unit"}");
-                return;
-            }
+    public void NextTurn() {
+        // Advance ke unit berikutnya
+        _currentQueueIndex++;
+
+        if (_currentQueueIndex >= _turnQueue.Count) {
+            // Round selesai — mulai round baru
+            // Cek kondisi dulu
+            if (CheckVictory()) return;
+            if (CheckDefeat()) return;
+            StartNewRound();
+            return;
         }
 
-        // Semua player unit sudah selesai → enemy turn
-        StartEnemyTurn();
+        ActiveUnit = _turnQueue[_currentQueueIndex];
+
+        if (!ActiveUnit.IsAlive) {
+            NextTurn();
+            return;
+        }
+
+        SubState = TurnSubState.SelectingAction;
+        OnActiveUnitChanged?.Invoke(ActiveUnit);
+
+        // Kalau enemy-controlled, jalankan AI
+        if (!ActiveUnit.IsPlayerControlled) {
+            StartCoroutine(RunEnemyAI(ActiveUnit));
+        }
     }
 
-    public void EndPlayerUnitTurn() {
-        if (ActiveUnit != null) {
-            ActiveUnit.HasActedThisTurn = true;
-            ActiveUnit.HasMovedThisTurn = true;
-        }
+    public void EndUnitTurn() {
+        ActiveUnit?.ResetTurnState();
         SubState = TurnSubState.Idle;
-        ActivateNextPlayerUnit();
+        if (CheckVictory()) return;
+        if (CheckDefeat()) return;
+        NextTurn();
     }
 
-    void StartEnemyTurn() {
-        _currentPhase = BattlePhase.EnemyTurn;
-        SubState = TurnSubState.Executing;
-        OnPhaseChanged?.Invoke(_currentPhase);
-        Debug.Log("=== ENEMY TURN ===");
+    // ===== ENEMY AI =====
 
-        StartCoroutine(RunEnemyAI());
-    }
+    IEnumerator RunEnemyAI(Unit enemy) {
+        SubState = TurnSubState.Animating;
+        yield return new WaitForSeconds(0.3f);
 
-    IEnumerator RunEnemyAI() {
-        foreach (var enemy in _enemyUnits.Where(e => e.IsAlive)) {
-            enemy.ResetTurnState();
-            ActiveUnit = enemy;
-            OnActiveUnitChanged?.Invoke(enemy);
-
-            yield return StartCoroutine(EnemyTakeTurn(enemy));
-            yield return new WaitForSeconds(0.3f);
-        }
-
-        // Cek kondisi battle
-        if (CheckVictoryCondition()) {
-            _currentPhase = BattlePhase.Victory;
-            OnPhaseChanged?.Invoke(_currentPhase);
-            OnBattleEnd?.Invoke(true);
-            Debug.Log("=== VICTORY! ===");
-        } else {
-            StartPlayerTurn();
-        }
-    }
-
-    IEnumerator EnemyTakeTurn(Unit enemy) {
         if (enemy.Data == null) {
             ActionSystem.Instance.ExecuteWait(enemy);
+            yield return new WaitForSeconds(0.2f);
+            EndUnitTurn();
             yield break;
         }
 
         var grid = GridManager.Instance;
         var origin = enemy.GridPos;
 
-        // 1. Cari target player terdekat
         Unit closestTarget = null;
         int closestDist = int.MaxValue;
 
         foreach (var player in _playerUnits.Where(p => p.IsAlive)) {
             int dist = grid.GetDistance(origin, player.GridPos);
-            if (dist >= 0 && dist < closestDist) {
-                closestDist = dist;
-                closestTarget = player;
-            }
+            if (dist >= 0 && dist < closestDist) { closestDist = dist; closestTarget = player; }
         }
 
         if (closestTarget == null) {
             ActionSystem.Instance.ExecuteWait(enemy);
+            yield return new WaitForSeconds(0.2f);
+            EndUnitTurn();
             yield break;
         }
 
-        int attackRange = enemy.Data.attackRange;
+        int atkRange = enemy.Data.attackRange;
         int targetDist = Mathf.Abs(origin.x - closestTarget.GridPos.x) + Mathf.Abs(origin.y - closestTarget.GridPos.y);
 
-        if (targetDist <= attackRange) {
-            // Dalam range → attack
+        if (targetDist <= atkRange) {
             ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
+            yield return new WaitForSeconds(0.5f);
         } else {
-            // Move toward target
             var walkable = ActionRangeCalculator.GetWalkableTiles(origin, enemy.Data.moveRange, grid);
-
             Tile bestTile = null;
             int bestDist = int.MaxValue;
-
             foreach (var tile in walkable) {
-                int dist = Mathf.Abs(tile.GridPos.x - closestTarget.GridPos.x) + Mathf.Abs(tile.GridPos.y - closestTarget.GridPos.y);
-                if (dist < bestDist) {
-                    bestDist = dist;
-                    bestTile = tile;
-                }
+                int d = Mathf.Abs(tile.GridPos.x - closestTarget.GridPos.x) + Mathf.Abs(tile.GridPos.y - closestTarget.GridPos.y);
+                if (d < bestDist) { bestDist = d; bestTile = tile; }
             }
-
             if (bestTile != null && bestDist < targetDist) {
                 yield return StartCoroutine(ActionSystem.Instance.ExecuteMove(enemy, bestTile));
             }
-
-            // Attack lagi kalau setelah move masuk range
             int newDist = Mathf.Abs(enemy.GridPos.x - closestTarget.GridPos.x) + Mathf.Abs(enemy.GridPos.y - closestTarget.GridPos.y);
-            if (newDist <= attackRange) {
+            if (newDist <= atkRange) {
                 ActionSystem.Instance.ExecuteAttack(enemy, closestTarget);
+                yield return new WaitForSeconds(0.5f);
             } else if (!enemy.HasActedThisTurn) {
                 ActionSystem.Instance.ExecuteWait(enemy);
             }
         }
 
-        yield return null;
+        yield return new WaitForSeconds(0.2f);
+        EndUnitTurn();
     }
 
-    bool CheckVictoryCondition() {
-        return _enemyUnits.All(e => !e.IsAlive);
+    // ===== CONDITIONS =====
+
+    bool CheckVictory() {
+        if (_enemyUnits.All(e => !e.IsAlive)) {
+            _currentPhase = BattlePhase.Victory;
+            OnPhaseChanged?.Invoke(_currentPhase);
+            OnBattleEnd?.Invoke(true);
+            Debug.Log("=== VICTORY! ===");
+            return true;
+        }
+        return false;
     }
 
-    bool CheckDefeatCondition() {
-        return _playerUnits.All(p => !p.IsAlive);
+    bool CheckDefeat() {
+        if (_playerUnits.All(p => !p.IsAlive)) {
+            _currentPhase = BattlePhase.Defeat;
+            OnPhaseChanged?.Invoke(_currentPhase);
+            OnBattleEnd?.Invoke(false);
+            Debug.Log("=== DEFEAT... ===");
+            return true;
+        }
+        return false;
     }
 
-    // Dipanggil dari luar saat unit mati
     public void OnUnitDied(Unit unit) {
         _allUnits.Remove(unit);
-
-        if (unit.IsPlayerControlled) {
-            _playerUnits.Remove(unit);
-            if (CheckDefeatCondition()) {
-                _currentPhase = BattlePhase.Defeat;
-                OnPhaseChanged?.Invoke(_currentPhase);
-                OnBattleEnd?.Invoke(false);
-                Debug.Log("=== DEFEAT ===");
-            }
-        } else {
-            _enemyUnits.Remove(unit);
-            if (CheckVictoryCondition()) {
-                _currentPhase = BattlePhase.Victory;
-                OnPhaseChanged?.Invoke(_currentPhase);
-                OnBattleEnd?.Invoke(true);
-                Debug.Log("=== VICTORY! ===");
-            }
-        }
+        if (unit.IsPlayerControlled) _playerUnits.Remove(unit);
+        else _enemyUnits.Remove(unit);
     }
 
-    void OnDestroy() {
-        if (Instance == this) Instance = null;
-    }
+    void OnDestroy() { if (Instance == this) Instance = null; }
 }
