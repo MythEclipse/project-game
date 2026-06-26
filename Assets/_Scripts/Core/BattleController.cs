@@ -26,10 +26,6 @@ public class BattleController : MonoBehaviour {
     private static readonly Color MoveColor = new Color(0.2f, 0.8f, 0.2f, 0.5f);
     private static readonly Color AttackColor = new Color(0.8f, 0.2f, 0.2f, 0.5f);
     private static readonly Color SelectColor = new Color(0.2f, 0.4f, 0.8f, 0.5f);
-    private int _width => GridManager.Instance != null ? GridManager.Instance.Width : 16;
-    private int _height => GridManager.Instance != null ? GridManager.Instance.Height : 9;
-    private int _playerRow => Mathf.Max(0, _height / 2 - 2);
-    private int _enemyRow => Mathf.Min(_height - 1, _height / 2 + 2);
 
     void Awake() {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -49,6 +45,7 @@ public class BattleController : MonoBehaviour {
         if (_actionSystem != null)
             _actionSystem.OnAttackPerformed += OnAttackPerformed;
 
+        // Init HUD
         _battleHud = new GameObject("BattleHUD").AddComponent<BattleHUD>();
         _battleHud.Init();
 
@@ -74,25 +71,30 @@ public class BattleController : MonoBehaviour {
         }
 
         if (playerData.Count == 0 || enemyData.Count == 0) {
-            Debug.LogWarning("Need both player and enemy UnitData assets.");
+            Debug.LogWarning("Need both player and enemy UnitData assets. Run DNDTactics/Create Unit Data Assets menu.");
             return;
         }
 
         var grid = GridManager.Instance;
-        int midX = _width / 2;
+        int gridH = grid.Height;
+        int playerRow = gridH / 2 - 1;
+        int enemyRow = gridH / 2 + 1;
+        int spacing = 3;
+        int startX = (grid.Width - (Mathf.Max(playerData.Count, enemyData.Count) - 1) * spacing) / 2;
+
         for (int i = 0; i < playerData.Count && i < 4; i++) {
             var unit = Instantiate(_unitPrefab, _playerUnitParent);
             unit.SetData(playerData[i]);
-            int xPos = midX - 2 + i * 2;
-            if (grid.PlaceUnit(unit, new Vector2Int(xPos, _playerRow)))
+            int xPos = startX + i * spacing;
+            if (grid.PlaceUnit(unit, new Vector2Int(xPos, playerRow)))
                 unit.name = playerData[i].unitName;
         }
 
         for (int i = 0; i < enemyData.Count && i < 4; i++) {
             var unit = Instantiate(_unitPrefab, _enemyUnitParent);
             unit.SetData(enemyData[i]);
-            int xPos = midX - 2 + i * 2;
-            if (grid.PlaceUnit(unit, new Vector2Int(xPos, _enemyRow)))
+            int xPos = startX + i * spacing;
+            if (grid.PlaceUnit(unit, new Vector2Int(xPos, enemyRow)))
                 unit.name = enemyData[i].unitName;
         }
 
@@ -111,7 +113,6 @@ public class BattleController : MonoBehaviour {
         _selectedUnit = unit;
         ClearHighlights();
         if (_pulseCoroutine != null) { StopCoroutine(_pulseCoroutine); _pulseCoroutine = null; }
-
         if (unit != null && _turnManager.CurrentPhase == BattlePhase.Battle) {
             var tile = GridManager.Instance?.GetTileAtPosition(unit.GridPos);
             if (tile != null) _pulseCoroutine = StartCoroutine(PulseHighlight(tile));
@@ -146,7 +147,6 @@ public class BattleController : MonoBehaviour {
         if (_turnManager == null || _turnManager.CurrentPhase != BattlePhase.Battle) return;
         if (_turnManager.SubState != TurnSubState.SelectingAction && _turnManager.SubState != TurnSubState.SelectingTarget) return;
 
-        // HANYA active unit yang bisa dikontrol
         var active = _turnManager.ActiveUnit;
         if (active == null || !active.IsAlive) return;
         if (!active.IsPlayerControlled) return;
@@ -154,19 +154,19 @@ public class BattleController : MonoBehaviour {
 
         if (_isWaitingForTarget) { HandleTargetSelection(clickedTile); return; }
 
-        // Klik musuh → serang langsung (kalau player controlled)
-        if (_selectedUnit.IsPlayerControlled &&
-            clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
+        // Klik musuh → serang
+        if (clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
             && _actionSystem.CanAttackTarget(_selectedUnit, clickedTile)) {
             _actionSystem.ExecuteAttack(_selectedUnit, clickedTile.Occupant);
-            _turnManager.EndUnitTurn();
+            ClearHighlights();
             return;
         }
 
         // Klik tile kosong → move
-        if (_selectedUnit.IsPlayerControlled && clickedTile.IsWalkable && !_selectedUnit.HasMovedThisTurn) {
+        if (!_selectedUnit.HasMovedThisTurn && clickedTile.IsWalkable) {
             var walkable = ActionRangeCalculator.GetWalkableTiles(_selectedUnit.GridPos, _selectedUnit.Data?.moveRange ?? 5, GridManager.Instance);
-            if (walkable.Contains(clickedTile)) StartCoroutine(_actionSystem.ExecuteMove(_selectedUnit, clickedTile));
+            if (walkable.Contains(clickedTile))
+                StartCoroutine(_actionSystem.ExecuteMove(_selectedUnit, clickedTile));
         }
     }
 
@@ -176,7 +176,8 @@ public class BattleController : MonoBehaviour {
                 if (clickedTile.Occupant != null && !clickedTile.Occupant.IsPlayerControlled && clickedTile.Occupant.IsAlive
                     && _actionSystem.CanAttackTarget(_selectedUnit, clickedTile)) {
                     _actionSystem.ExecuteAttack(_selectedUnit, clickedTile.Occupant);
-                    _isWaitingForTarget = false; ClearHighlights(); _turnManager.EndUnitTurn();
+                    _isWaitingForTarget = false; ClearHighlights();
+                    _turnManager.SubState = TurnSubState.SelectingAction;
                 }
                 break;
             case ActionType.Move:
