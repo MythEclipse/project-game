@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "unity-mcp": {
+      "command": "dotnet",
+      "args": [
+        "/home/asephs/unity-project/Library/mcp-server/mcp-server.dll",
+        "--port",
+        "31089",
+        "--client-transport",
+        "stdio"
+      ]
+    }
+  }
+}
