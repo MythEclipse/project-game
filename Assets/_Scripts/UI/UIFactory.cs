@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using System;
 
 public static class UIFactory {
     public static void EnsureEventSystem() {
         if (GameObject.FindObjectOfType<EventSystem>() == null) {
-            new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            var go = new GameObject("EventSystem", typeof(EventSystem));
+            go.AddComponent<InputSystemUIInputModule>();
         }
     }
 
