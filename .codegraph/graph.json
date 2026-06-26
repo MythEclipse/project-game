@@ -1,8 +1,15 @@
 {
   "version": "0.1.0",
-  "generatedAt": "2026-06-26T19:24:10.399Z",
+  "generatedAt": "2026-06-26T19:53:10.289Z",
   "root": "/home/asephs/project_game",
   "nodes": [
+    {
+      "id": "file:.remember/tmp/last-ndc.ts",
+      "type": "file",
+      "name": "last-ndc.ts",
+      "path": ".remember/tmp/last-ndc.ts",
+      "language": "typescript"
+    },
     {
       "id": "file:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
       "type": "file",
@@ -1439,10 +1446,11 @@
   ],
   "metadata": {
     "languages": [
+      "typescript",
       "javascript",
       "java"
     ],
-    "filesScanned": 4,
+    "filesScanned": 5,
     "ignoredPaths": [
       "node_modules",
       ".git",
@@ -1457,10 +1465,10 @@
       "out",
       "captures"
     ],
-    "nodesCount": 68,
+    "nodesCount": 69,
     "edgesCount": 106,
     "nodeTypes": {
-      "file": 4,
+      "file": 5,
       "function": 2,
       "class": 3,
       "method": 38,
@@ -1471,7 +1479,7 @@
       "imports": 42,
       "calls": 21
     },
-    "relationshipCoverage": 1,
-    "qualityScore": 1
+    "relationshipCoverage": 0.8,
+    "qualityScore": 0.88
   }
 }
