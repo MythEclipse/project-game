@@ -1,0 +1,1477 @@
+{
+  "version": "0.1.0",
+  "generatedAt": "2026-06-26T13:57:25.460Z",
+  "root": "/home/asephs/project game",
+  "nodes": [
+    {
+      "id": "file:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
+      "type": "file",
+      "name": "toggle-theme.js",
+      "path": "Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
+      "language": "javascript"
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:toggleTheme",
+      "type": "function",
+      "name": "toggleTheme",
+      "path": "Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
+      "language": "javascript",
+      "line": 3,
+      "startLine": 3,
+      "endLine": 6
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:switchEventListener",
+      "type": "function",
+      "name": "switchEventListener",
+      "path": "Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
+      "language": "javascript",
+      "line": 8,
+      "startLine": 8,
+      "endLine": 13
+    },
+    {
+      "id": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "type": "file",
+      "name": "AppUIActivity.java",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java"
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity",
+      "type": "class",
+      "name": "AppUIActivity",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 27,
+      "startLine": 27,
+      "endLine": 358
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsNightModeDefined",
+      "type": "method",
+      "name": "IsNightModeDefined",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 39,
+      "startLine": 39,
+      "endLine": 41
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsNightModeEnabled",
+      "type": "method",
+      "name": "IsNightModeEnabled",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 43,
+      "startLine": 43,
+      "endLine": 45
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:FontScale",
+      "type": "method",
+      "name": "FontScale",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 47,
+      "startLine": 47,
+      "endLine": 49
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:ScaledDensity",
+      "type": "method",
+      "name": "ScaledDensity",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 51,
+      "startLine": 51,
+      "endLine": 53
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Density",
+      "type": "method",
+      "name": "Density",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 55,
+      "startLine": 55,
+      "endLine": 57
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:DensityDpi",
+      "type": "method",
+      "name": "DensityDpi",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 59,
+      "startLine": 59,
+      "endLine": 61
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:HighContrast",
+      "type": "method",
+      "name": "HighContrast",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 63,
+      "startLine": 63,
+      "endLine": 65
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:ReduceMotion",
+      "type": "method",
+      "name": "ReduceMotion",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 67,
+      "startLine": 67,
+      "endLine": 69
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:LayoutDirection",
+      "type": "method",
+      "name": "LayoutDirection",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 71,
+      "startLine": 71,
+      "endLine": 73
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "type": "method",
+      "name": "Vibrate",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 96,
+      "startLine": 96,
+      "endLine": 98
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "type": "method",
+      "name": "IsHighContrastEnabled",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 100,
+      "startLine": 100,
+      "endLine": 124
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "type": "method",
+      "name": "IsRemoveAnimationEnabled",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 163,
+      "startLine": 163,
+      "endLine": 167
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "type": "method",
+      "name": "AddReduceMotionChangeListener",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 169,
+      "startLine": 170,
+      "endLine": 191
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onChange",
+      "type": "method",
+      "name": "onChange",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 173,
+      "startLine": 173,
+      "endLine": 180
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:deliverSelfNotifications",
+      "type": "method",
+      "name": "deliverSelfNotifications",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 182,
+      "startLine": 182,
+      "endLine": 184
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "type": "method",
+      "name": "GetLayoutDirection",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 193,
+      "startLine": 193,
+      "endLine": 201
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:RunHapticFeedback",
+      "type": "method",
+      "name": "RunHapticFeedback",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 203,
+      "startLine": 203,
+      "endLine": 237
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "type": "method",
+      "name": "onCreate",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 240,
+      "startLine": 240,
+      "endLine": 277
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged",
+      "type": "method",
+      "name": "onConfigurationChanged",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "language": "java",
+      "line": 288,
+      "startLine": 288,
+      "endLine": 357
+    },
+    {
+      "id": "module:android.content.Context",
+      "type": "module",
+      "name": "android.content.Context",
+      "path": "android.content.Context"
+    },
+    {
+      "id": "module:android.content.res.Configuration",
+      "type": "module",
+      "name": "android.content.res.Configuration",
+      "path": "android.content.res.Configuration"
+    },
+    {
+      "id": "module:android.content.res.Resources",
+      "type": "module",
+      "name": "android.content.res.Resources",
+      "path": "android.content.res.Resources"
+    },
+    {
+      "id": "module:android.database.ContentObserver",
+      "type": "module",
+      "name": "android.database.ContentObserver",
+      "path": "android.database.ContentObserver"
+    },
+    {
+      "id": "module:android.os.Build",
+      "type": "module",
+      "name": "android.os.Build",
+      "path": "android.os.Build"
+    },
+    {
+      "id": "module:android.os.Bundle",
+      "type": "module",
+      "name": "android.os.Bundle",
+      "path": "android.os.Bundle"
+    },
+    {
+      "id": "module:android.os.VibrationEffect",
+      "type": "module",
+      "name": "android.os.VibrationEffect",
+      "path": "android.os.VibrationEffect"
+    },
+    {
+      "id": "module:android.os.Vibrator",
+      "type": "module",
+      "name": "android.os.Vibrator",
+      "path": "android.os.Vibrator"
+    },
+    {
+      "id": "module:android.os.Handler",
+      "type": "module",
+      "name": "android.os.Handler",
+      "path": "android.os.Handler"
+    },
+    {
+      "id": "module:android.os.VibratorManager",
+      "type": "module",
+      "name": "android.os.VibratorManager",
+      "path": "android.os.VibratorManager"
+    },
+    {
+      "id": "module:android.provider.Settings",
+      "type": "module",
+      "name": "android.provider.Settings",
+      "path": "android.provider.Settings"
+    },
+    {
+      "id": "module:android.util.DisplayMetrics",
+      "type": "module",
+      "name": "android.util.DisplayMetrics",
+      "path": "android.util.DisplayMetrics"
+    },
+    {
+      "id": "module:android.util.Log",
+      "type": "module",
+      "name": "android.util.Log",
+      "path": "android.util.Log"
+    },
+    {
+      "id": "module:java.lang.reflect.InvocationTargetException",
+      "type": "module",
+      "name": "java.lang.reflect.InvocationTargetException",
+      "path": "java.lang.reflect.InvocationTargetException"
+    },
+    {
+      "id": "module:java.lang.reflect.Method",
+      "type": "module",
+      "name": "java.lang.reflect.Method",
+      "path": "java.lang.reflect.Method"
+    },
+    {
+      "id": "module:java.util.Locale",
+      "type": "module",
+      "name": "java.util.Locale",
+      "path": "java.util.Locale"
+    },
+    {
+      "id": "module:android.text.TextUtils",
+      "type": "module",
+      "name": "android.text.TextUtils",
+      "path": "android.text.TextUtils"
+    },
+    {
+      "id": "module:android.view.accessibility.AccessibilityManager",
+      "type": "module",
+      "name": "android.view.accessibility.AccessibilityManager",
+      "path": "android.view.accessibility.AccessibilityManager"
+    },
+    {
+      "id": "module:com.unity3d.player.UnityPlayer",
+      "type": "module",
+      "name": "com.unity3d.player.UnityPlayer",
+      "path": "com.unity3d.player.UnityPlayer"
+    },
+    {
+      "id": "module:com.unity3d.player.UnityPlayerActivity",
+      "type": "module",
+      "name": "com.unity3d.player.UnityPlayerActivity",
+      "path": "com.unity3d.player.UnityPlayerActivity"
+    },
+    {
+      "id": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "type": "file",
+      "name": "AppUIGameActivity.java",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java"
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity",
+      "type": "class",
+      "name": "AppUIGameActivity",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 27,
+      "startLine": 27,
+      "endLine": 358
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsNightModeDefined",
+      "type": "method",
+      "name": "IsNightModeDefined",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 39,
+      "startLine": 39,
+      "endLine": 41
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsNightModeEnabled",
+      "type": "method",
+      "name": "IsNightModeEnabled",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 43,
+      "startLine": 43,
+      "endLine": 45
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:FontScale",
+      "type": "method",
+      "name": "FontScale",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 47,
+      "startLine": 47,
+      "endLine": 49
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:ScaledDensity",
+      "type": "method",
+      "name": "ScaledDensity",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 51,
+      "startLine": 51,
+      "endLine": 53
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Density",
+      "type": "method",
+      "name": "Density",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 55,
+      "startLine": 55,
+      "endLine": 57
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:DensityDpi",
+      "type": "method",
+      "name": "DensityDpi",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 59,
+      "startLine": 59,
+      "endLine": 61
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:HighContrast",
+      "type": "method",
+      "name": "HighContrast",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 63,
+      "startLine": 63,
+      "endLine": 65
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:ReduceMotion",
+      "type": "method",
+      "name": "ReduceMotion",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 67,
+      "startLine": 67,
+      "endLine": 69
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:LayoutDirection",
+      "type": "method",
+      "name": "LayoutDirection",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 71,
+      "startLine": 71,
+      "endLine": 73
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "type": "method",
+      "name": "Vibrate",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 96,
+      "startLine": 96,
+      "endLine": 98
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "type": "method",
+      "name": "IsHighContrastEnabled",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 100,
+      "startLine": 100,
+      "endLine": 124
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "type": "method",
+      "name": "IsRemoveAnimationEnabled",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 163,
+      "startLine": 163,
+      "endLine": 167
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "type": "method",
+      "name": "AddReduceMotionChangeListener",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 169,
+      "startLine": 170,
+      "endLine": 191
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onChange",
+      "type": "method",
+      "name": "onChange",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 173,
+      "startLine": 173,
+      "endLine": 180
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:deliverSelfNotifications",
+      "type": "method",
+      "name": "deliverSelfNotifications",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 182,
+      "startLine": 182,
+      "endLine": 184
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "type": "method",
+      "name": "GetLayoutDirection",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 193,
+      "startLine": 193,
+      "endLine": 201
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:RunHapticFeedback",
+      "type": "method",
+      "name": "RunHapticFeedback",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 203,
+      "startLine": 203,
+      "endLine": 237
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "type": "method",
+      "name": "onCreate",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 240,
+      "startLine": 240,
+      "endLine": 277
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged",
+      "type": "method",
+      "name": "onConfigurationChanged",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "language": "java",
+      "line": 288,
+      "startLine": 288,
+      "endLine": 357
+    },
+    {
+      "id": "module:com.unity3d.player.UnityPlayerGameActivity",
+      "type": "module",
+      "name": "com.unity3d.player.UnityPlayerGameActivity",
+      "path": "com.unity3d.player.UnityPlayerGameActivity"
+    },
+    {
+      "id": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java",
+      "type": "file",
+      "name": "HapticFeedback.java",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java",
+      "language": "java"
+    },
+    {
+      "id": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java:HapticFeedback",
+      "type": "class",
+      "name": "HapticFeedback",
+      "path": "Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java",
+      "language": "java",
+      "line": 6,
+      "startLine": 6,
+      "endLine": 37
+    }
+  ],
+  "edges": [
+    {
+      "id": "exports:file:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js->symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:toggleTheme",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
+      "target": "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:toggleTheme",
+      "evidence": "toggleTheme"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js->symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:switchEventListener",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js",
+      "target": "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:switchEventListener",
+      "evidence": "switchEventListener"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity",
+      "evidence": "AppUIActivity"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsNightModeDefined",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsNightModeDefined",
+      "evidence": "IsNightModeDefined"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsNightModeEnabled",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsNightModeEnabled",
+      "evidence": "IsNightModeEnabled"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:FontScale",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:FontScale",
+      "evidence": "FontScale"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:ScaledDensity",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:ScaledDensity",
+      "evidence": "ScaledDensity"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Density",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Density",
+      "evidence": "Density"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:DensityDpi",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:DensityDpi",
+      "evidence": "DensityDpi"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:HighContrast",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:HighContrast",
+      "evidence": "HighContrast"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:ReduceMotion",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:ReduceMotion",
+      "evidence": "ReduceMotion"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:LayoutDirection",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:LayoutDirection",
+      "evidence": "LayoutDirection"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "evidence": "Vibrate"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "evidence": "IsHighContrastEnabled"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "evidence": "IsRemoveAnimationEnabled"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "evidence": "AddReduceMotionChangeListener"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onChange",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onChange",
+      "evidence": "onChange"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:deliverSelfNotifications",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:deliverSelfNotifications",
+      "evidence": "deliverSelfNotifications"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "evidence": "GetLayoutDirection"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:RunHapticFeedback",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:RunHapticFeedback",
+      "evidence": "RunHapticFeedback"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "evidence": "onCreate"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged",
+      "evidence": "onConfigurationChanged"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.content.Context",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.content.Context",
+      "evidence": "android.content.Context"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.content.res.Configuration",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.content.res.Configuration",
+      "evidence": "android.content.res.Configuration"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.content.res.Resources",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.content.res.Resources",
+      "evidence": "android.content.res.Resources"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.database.ContentObserver",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.database.ContentObserver",
+      "evidence": "android.database.ContentObserver"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.os.Build",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.os.Build",
+      "evidence": "android.os.Build"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.os.Bundle",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.os.Bundle",
+      "evidence": "android.os.Bundle"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.os.VibrationEffect",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.os.VibrationEffect",
+      "evidence": "android.os.VibrationEffect"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.os.Vibrator",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.os.Vibrator",
+      "evidence": "android.os.Vibrator"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.os.Handler",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.os.Handler",
+      "evidence": "android.os.Handler"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.os.VibratorManager",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.os.VibratorManager",
+      "evidence": "android.os.VibratorManager"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.provider.Settings",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.provider.Settings",
+      "evidence": "android.provider.Settings"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.util.DisplayMetrics",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.util.DisplayMetrics",
+      "evidence": "android.util.DisplayMetrics"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.util.Log",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.util.Log",
+      "evidence": "android.util.Log"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:java.lang.reflect.InvocationTargetException",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:java.lang.reflect.InvocationTargetException",
+      "evidence": "java.lang.reflect.InvocationTargetException"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:java.lang.reflect.Method",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:java.lang.reflect.Method",
+      "evidence": "java.lang.reflect.Method"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:java.util.Locale",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:java.util.Locale",
+      "evidence": "java.util.Locale"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.text.TextUtils",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.text.TextUtils",
+      "evidence": "android.text.TextUtils"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:android.view.accessibility.AccessibilityManager",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:android.view.accessibility.AccessibilityManager",
+      "evidence": "android.view.accessibility.AccessibilityManager"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:com.unity3d.player.UnityPlayer",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:com.unity3d.player.UnityPlayer",
+      "evidence": "com.unity3d.player.UnityPlayer"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java->module:com.unity3d.player.UnityPlayerActivity",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java",
+      "target": "module:com.unity3d.player.UnityPlayerActivity",
+      "evidence": "com.unity3d.player.UnityPlayerActivity"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity",
+      "evidence": "AppUIGameActivity"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsNightModeDefined",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsNightModeDefined",
+      "evidence": "IsNightModeDefined"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsNightModeEnabled",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsNightModeEnabled",
+      "evidence": "IsNightModeEnabled"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:FontScale",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:FontScale",
+      "evidence": "FontScale"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:ScaledDensity",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:ScaledDensity",
+      "evidence": "ScaledDensity"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Density",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Density",
+      "evidence": "Density"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:DensityDpi",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:DensityDpi",
+      "evidence": "DensityDpi"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:HighContrast",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:HighContrast",
+      "evidence": "HighContrast"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:ReduceMotion",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:ReduceMotion",
+      "evidence": "ReduceMotion"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:LayoutDirection",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:LayoutDirection",
+      "evidence": "LayoutDirection"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "evidence": "Vibrate"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "evidence": "IsHighContrastEnabled"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "evidence": "IsRemoveAnimationEnabled"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "evidence": "AddReduceMotionChangeListener"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onChange",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onChange",
+      "evidence": "onChange"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:deliverSelfNotifications",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:deliverSelfNotifications",
+      "evidence": "deliverSelfNotifications"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "evidence": "GetLayoutDirection"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:RunHapticFeedback",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:RunHapticFeedback",
+      "evidence": "RunHapticFeedback"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "evidence": "onCreate"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged",
+      "evidence": "onConfigurationChanged"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.content.Context",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.content.Context",
+      "evidence": "android.content.Context"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.content.res.Configuration",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.content.res.Configuration",
+      "evidence": "android.content.res.Configuration"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.content.res.Resources",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.content.res.Resources",
+      "evidence": "android.content.res.Resources"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.database.ContentObserver",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.database.ContentObserver",
+      "evidence": "android.database.ContentObserver"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.os.Build",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.os.Build",
+      "evidence": "android.os.Build"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.os.Bundle",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.os.Bundle",
+      "evidence": "android.os.Bundle"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.os.VibrationEffect",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.os.VibrationEffect",
+      "evidence": "android.os.VibrationEffect"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.os.Vibrator",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.os.Vibrator",
+      "evidence": "android.os.Vibrator"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.os.Handler",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.os.Handler",
+      "evidence": "android.os.Handler"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.os.VibratorManager",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.os.VibratorManager",
+      "evidence": "android.os.VibratorManager"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.provider.Settings",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.provider.Settings",
+      "evidence": "android.provider.Settings"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.util.DisplayMetrics",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.util.DisplayMetrics",
+      "evidence": "android.util.DisplayMetrics"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.util.Log",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.util.Log",
+      "evidence": "android.util.Log"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:java.lang.reflect.InvocationTargetException",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:java.lang.reflect.InvocationTargetException",
+      "evidence": "java.lang.reflect.InvocationTargetException"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:java.lang.reflect.Method",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:java.lang.reflect.Method",
+      "evidence": "java.lang.reflect.Method"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:java.util.Locale",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:java.util.Locale",
+      "evidence": "java.util.Locale"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.text.TextUtils",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.text.TextUtils",
+      "evidence": "android.text.TextUtils"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:android.view.accessibility.AccessibilityManager",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:android.view.accessibility.AccessibilityManager",
+      "evidence": "android.view.accessibility.AccessibilityManager"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:com.unity3d.player.UnityPlayer",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:com.unity3d.player.UnityPlayer",
+      "evidence": "com.unity3d.player.UnityPlayer"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java->module:com.unity3d.player.UnityPlayerGameActivity",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java",
+      "target": "module:com.unity3d.player.UnityPlayerGameActivity",
+      "evidence": "com.unity3d.player.UnityPlayerGameActivity"
+    },
+    {
+      "id": "exports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java:HapticFeedback",
+      "type": "exports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java:HapticFeedback",
+      "evidence": "HapticFeedback"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java->module:android.os.Build",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java",
+      "target": "module:android.os.Build",
+      "evidence": "android.os.Build"
+    },
+    {
+      "id": "imports:file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java->module:android.os.VibrationEffect",
+      "type": "imports",
+      "source": "file:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/HapticFeedback.java",
+      "target": "module:android.os.VibrationEffect",
+      "evidence": "android.os.VibrationEffect"
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:switchEventListener->symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:toggleTheme",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:switchEventListener",
+      "target": "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:toggleTheme",
+      "evidence": "toggleTheme",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.lachee.discordrpc@791aa95d2aec/Documentation~/templates/darkfx/styles/toggle-theme.js:toggleTheme"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "evidence": "Vibrate",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AppUIActivity",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "evidence": "AddReduceMotionChangeListener",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onChange->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onChange",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "evidence": "IsRemoveAnimationEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:RunHapticFeedback->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:RunHapticFeedback",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate",
+      "evidence": "Vibrate",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:Vibrate"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "evidence": "IsHighContrastEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled",
+      "evidence": "IsRemoveAnimationEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsRemoveAnimationEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener",
+      "evidence": "AddReduceMotionChangeListener",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:AddReduceMotionChangeListener"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "evidence": "GetLayoutDirection",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection",
+      "evidence": "GetLayoutDirection",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:GetLayoutDirection"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:onConfigurationChanged",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled",
+      "evidence": "IsHighContrastEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIActivity.java:IsHighContrastEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "evidence": "Vibrate",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AppUIGameActivity",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "evidence": "AddReduceMotionChangeListener",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onChange->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onChange",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "evidence": "IsRemoveAnimationEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:RunHapticFeedback->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:RunHapticFeedback",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate",
+      "evidence": "Vibrate",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:Vibrate"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "evidence": "IsHighContrastEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled",
+      "evidence": "IsRemoveAnimationEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsRemoveAnimationEnabled"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener",
+      "evidence": "AddReduceMotionChangeListener",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:AddReduceMotionChangeListener"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onCreate",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "evidence": "GetLayoutDirection",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection",
+      "evidence": "GetLayoutDirection",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:GetLayoutDirection"
+      ]
+    },
+    {
+      "id": "calls:symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged->symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "type": "calls",
+      "source": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:onConfigurationChanged",
+      "target": "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled",
+      "evidence": "IsHighContrastEnabled",
+      "confidence": 1,
+      "resolution": "unique-name",
+      "candidates": [
+        "symbol:Library/PackageCache/com.unity.dt.app-ui@b097002a00c2/Runtime/Core/Platform/Android/Plugins/Android/AppUIGameActivity.java:IsHighContrastEnabled"
+      ]
+    }
+  ],
+  "metadata": {
+    "languages": [
+      "javascript",
+      "java"
+    ],
+    "filesScanned": 4,
+    "ignoredPaths": [
+      "node_modules",
+      ".git",
+      "dist",
+      "build",
+      ".next",
+      "vendor",
+      ".codegraph/cache",
+      ".gradle",
+      "generated",
+      ".idea",
+      "out",
+      "captures"
+    ],
+    "nodesCount": 68,
+    "edgesCount": 106,
+    "nodeTypes": {
+      "file": 4,
+      "function": 2,
+      "class": 3,
+      "method": 38,
+      "module": 21
+    },
+    "edgeTypes": {
+      "exports": 43,
+      "imports": 42,
+      "calls": 21
+    },
+    "relationshipCoverage": 1,
+    "qualityScore": 1
+  }
+}
