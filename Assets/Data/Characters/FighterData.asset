@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fdecbaaf501c9c3aa175a2d55c52cc0, type: 3}
+  m_Name: FighterData
+  m_EditorClassIdentifier: Assembly-CSharp::UnitData
+  unitName: Fighter
+  unitClass: 0
+  strength: 16
+  dexterity: 12
+  constitution: 15
+  intelligence: 8
+  wisdom: 10
+  charisma: 10
+  maxHp: 14
+  moveRange: 5
+  attackRange: 1
+  weaponDamage: 1d10+3
+  armorClass: 18
+  isPlayerControlled: 1
