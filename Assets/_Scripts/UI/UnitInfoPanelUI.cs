@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Text;
 
 public class UnitInfoPanelUI : MonoBehaviour {
     private GameObject _root;
@@ -14,46 +13,58 @@ public class UnitInfoPanelUI : MonoBehaviour {
 
     void CreateUI() {
         _root = UIFactory.CreatePanel(transform, new Vector2(220, 280),
-            SpriteFactory.CreateFilledRect(220, 280, new Color(0.14f, 0.12f, 0.08f, 0.92f)),
-            Color.white, new Vector2(1, 1), new Vector2(1, 1));
-        var rect = _root.GetComponent<RectTransform>();
-        rect.anchoredPosition = new Vector2(-10, -10);
-        rect.pivot = new Vector2(1, 1);
+            new Color(0.14f, 0.12f, 0.08f, 0.92f),
+            new Vector2(1, 1), new Vector2(1, 1),
+            new Vector2(-10, -10));
 
-        // Gold border
-        var border = UIFactory.CreateImage(_root.transform, new Vector2(220, 280),
-            SpriteFactory.CreateFilledRect(220, 280, Color.clear), Color.white);
-        border.GetComponent<RectTransform>().sizeDelta = new Vector2(220, 280);
-        border.GetComponent<Image>().color = UIColorPalette.GoldTrim;
+        // Gold border — generate texture
+        var borderGo = new GameObject("Border", typeof(Image));
+        var bRect = borderGo.GetComponent<RectTransform>();
+        bRect.SetParent(_root.transform, false);
+        bRect.anchorMin = Vector2.zero;
+        bRect.anchorMax = Vector2.one;
+        bRect.offsetMin = Vector2.zero;
+        bRect.offsetMax = Vector2.zero;
+
+        var tex = new Texture2D(220, 280);
+        for (int x = 0; x < 220; x++)
+            for (int y = 0; y < 280; y++) {
+                bool edge = x < 2 || x >= 218 || y < 2 || y >= 278;
+                tex.SetPixel(x, y, edge ? UIColorPalette.GoldTrim : Color.clear);
+            }
+        tex.Apply();
+        var bImg = borderGo.GetComponent<Image>();
+        bImg.sprite = Sprite.Create(tex, new Rect(0, 0, 220, 280), Vector2.one * 0.5f, 1);
+        bImg.raycastTarget = false;
 
         // Name
-        _nameLabel = UIFactory.CreateLabel(_root.transform, "---", 22, UIColorPalette.ParchmentLight,
-            TextAnchor.UpperCenter).GetComponent<Text>();
-        var nr = _nameLabel.GetComponent<RectTransform>();
+        var nameGo = UIFactory.CreateLabel(_root.transform, "---", 22, UIColorPalette.ParchmentLight, TextAnchor.UpperCenter);
+        var nr = nameGo.GetComponent<RectTransform>();
         nr.anchoredPosition = new Vector2(0, -30);
 
-        // Class
-        _classLabel = UIFactory.CreateLabel(_root.transform, "", 16, UIColorPalette.GoldTrim,
-            TextAnchor.UpperCenter).GetComponent<Text>();
-        var cr = _classLabel.GetComponent<RectTransform>();
-        cr.anchoredPosition = new Vector2(0, -55);
+        _nameLabel = nameGo.GetComponent<Text>();
 
-        // HP Bar
-        var hpPanel = UIFactory.CreateHPBar(_root.transform, new Vector2(180, 18));
-        var hpRect = hpPanel.GetComponent<RectTransform>();
-        hpRect.anchoredPosition = new Vector2(0, -80);
-        _hpBarFill = hpPanel.transform.Find("Fill")?.GetComponent<Image>();
-        _hpText = UIFactory.CreateLabel(_root.transform, "", 14, Color.white,
-            TextAnchor.MiddleCenter).GetComponent<Text>();
-        var hr = _hpText.GetComponent<RectTransform>();
-        hr.sizeDelta = new Vector2(180, 18);
+        // Class
+        var classGo = UIFactory.CreateLabel(_root.transform, "", 16, UIColorPalette.GoldTrim, TextAnchor.UpperCenter);
+        var cr = classGo.GetComponent<RectTransform>();
+        cr.anchoredPosition = new Vector2(0, -55);
+        _classLabel = classGo.GetComponent<Text>();
+
+        // HP bar
+        var hpBarGo = UIFactory.CreateHPBar(_root.transform, new Vector2(180, 18));
+        var hr = hpBarGo.GetComponent<RectTransform>();
         hr.anchoredPosition = new Vector2(0, -80);
+        _hpBarFill = hpBarGo.transform.Find("Fill")?.GetComponent<Image>();
+        _hpText = UIFactory.CreateLabel(_root.transform, "", 14, Color.white, TextAnchor.MiddleCenter).GetComponent<Text>();
+        var hpr = _hpText.GetComponent<RectTransform>();
+        hpr.sizeDelta = new Vector2(180, 18);
+        hpr.anchoredPosition = new Vector2(0, -80);
 
         // AC
-        _acLabel = UIFactory.CreateLabel(_root.transform, "AC: --", 16, UIColorPalette.ParchmentLight,
-            TextAnchor.UpperLeft).GetComponent<Text>();
-        var ar = _acLabel.GetComponent<RectTransform>();
+        var acGo = UIFactory.CreateLabel(_root.transform, "AC: --", 16, UIColorPalette.ParchmentLight, TextAnchor.UpperLeft);
+        var ar = acGo.GetComponent<RectTransform>();
         ar.anchoredPosition = new Vector2(-90, -108);
+        _acLabel = acGo.GetComponent<Text>();
 
         // Stats
         _statLabels = new Text[6];
@@ -61,37 +72,27 @@ public class UnitInfoPanelUI : MonoBehaviour {
         for (int i = 0; i < 6; i++) {
             float y = -140 - (i / 2) * 24;
             float x = (i % 2 == 0) ? -80 : 10;
-
-            var label = UIFactory.CreateLabel(_root.transform,
-                $"{statNames[i]}: --", 14, UIColorPalette.ParchmentDark,
-                TextAnchor.UpperLeft).GetComponent<Text>();
-            var lr = label.GetComponent<RectTransform>();
+            var lbl = UIFactory.CreateLabel(_root.transform, $"{statNames[i]}: --", 14, UIColorPalette.ParchmentDark, TextAnchor.UpperLeft);
+            var lr = lbl.GetComponent<RectTransform>();
             lr.anchoredPosition = new Vector2(x, y);
-            _statLabels[i] = label;
+            _statLabels[i] = lbl.GetComponent<Text>();
         }
 
         _root.SetActive(false);
     }
 
-    public void Show(bool visible) {
-        _root.SetActive(visible);
-    }
+    public void Show(bool visible) { if (_root != null) _root.SetActive(visible); }
 
     public void DisplayUnit(Unit unit) {
-        if (unit == null || unit.Data == null) {
-            _root.SetActive(false);
-            return;
-        }
-
+        if (unit == null || unit.Data == null) { _root.SetActive(false); return; }
         _root.SetActive(true);
         var d = unit.Data;
         _nameLabel.text = d.unitName;
         _classLabel.text = d.unitClass.ToString();
 
-        int maxHp = d.maxHp;
         int curHp = unit.CurrentHp;
-        float ratio = (float)curHp / maxHp;
-        _hpText.text = $"HP: {curHp}/{maxHp}";
+        float ratio = (float)curHp / d.maxHp;
+        _hpText.text = $"HP: {curHp}/{d.maxHp}";
         if (_hpBarFill != null) {
             _hpBarFill.fillAmount = ratio;
             _hpBarFill.color = UIColorPalette.HpColor(ratio);
@@ -100,11 +101,10 @@ public class UnitInfoPanelUI : MonoBehaviour {
         _acLabel.text = $"AC: {d.armorClass}";
 
         int[] stats = { d.strength, d.dexterity, d.constitution, d.intelligence, d.wisdom, d.charisma };
-        string[] statNames = { "STR", "DEX", "CON", "INT", "WIS", "CHA" };
+        string[] names = { "STR", "DEX", "CON", "INT", "WIS", "CHA" };
         for (int i = 0; i < 6; i++) {
             int mod = d.GetAbilityModifier(stats[i]);
-            string modStr = mod >= 0 ? $"+{mod}" : $"{mod}";
-            _statLabels[i].text = $"{statNames[i]}: {stats[i]} ({modStr})";
+            _statLabels[i].text = $"{names[i]}: {stats[i]} ({mod:+0;-0;0})";
         }
     }
 }

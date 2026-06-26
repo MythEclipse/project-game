@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class BattleHUD : MonoBehaviour {
     private Canvas _canvas;
@@ -12,20 +11,23 @@ public class BattleHUD : MonoBehaviour {
     public Canvas Canvas => _canvas;
 
     public void Init() {
-        // Create Canvas
         _canvas = UIFactory.CreateCanvas("BattleHUD_Canvas");
         _canvas.transform.SetParent(transform, false);
 
-        // Create panels
+        // Action panel
         var apGo = new GameObject("ActionPanelUI");
         apGo.transform.SetParent(_canvas.transform, false);
         _actionPanel = apGo.AddComponent<ActionPanelUI>();
+
+        // Init harus dipanggil setelah Awake si panel selesai
         _actionPanel.Init();
 
+        // Unit Info panel
         var uipGo = new GameObject("UnitInfoPanelUI");
         uipGo.transform.SetParent(_canvas.transform, false);
         _unitInfoPanel = uipGo.AddComponent<UnitInfoPanelUI>();
 
+        // Turn indicator
         var tiGo = new GameObject("TurnIndicatorUI");
         tiGo.transform.SetParent(_canvas.transform, false);
         _turnIndicator = tiGo.AddComponent<TurnIndicatorUI>();
@@ -49,8 +51,6 @@ public class BattleHUD : MonoBehaviour {
         if (phase == BattlePhase.Victory || phase == BattlePhase.Defeat) {
             ShowEndOverlay(phase == BattlePhase.Victory);
         }
-
-        if (phase == BattlePhase.PlayerTurn) _turnIndicator.SetPulse(true);
     }
 
     void OnActiveUnitChanged(Unit unit) {
@@ -84,18 +84,17 @@ public class BattleHUD : MonoBehaviour {
         if (_victoryOverlay != null) Destroy(_victoryOverlay);
 
         _victoryOverlay = UIFactory.CreatePanel(_canvas.transform, new Vector2(1920, 1080),
-            SpriteFactory.CreateFilledRect(1920, 1080, new Color(0, 0, 0, 0.7f)),
-            Color.white, Vector2.zero, Vector2.one);
+            new Color(0, 0, 0, 0.75f),
+            Vector2.zero, Vector2.one, Vector2.zero);
 
-        _victoryOverlay.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
-
-        var text = victory ? "🎉 VICTORY! 🎉" : "💀 DEFEAT... 💀";
+        var text = victory ? "VICTORY!" : "DEFEAT...";
         var color = victory ? UIColorPalette.HpGreen : UIColorPalette.DeepRed;
         var label = UIFactory.CreateLabel(_victoryOverlay.transform, text, 64,
             color, TextAnchor.MiddleCenter).GetComponent<Text>();
         var lr = label.GetComponent<RectTransform>();
         lr.anchorMin = Vector2.zero;
         lr.anchorMax = Vector2.one;
-        lr.sizeDelta = Vector2.zero;
+        lr.offsetMin = Vector2.zero;
+        lr.offsetMax = Vector2.zero;
     }
 }

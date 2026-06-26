@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class TurnIndicatorUI : MonoBehaviour {
     private GameObject _root;
     private Text _label;
-    private CanvasGroup _group;
 
     void Awake() {
         CreateUI();
@@ -13,65 +11,66 @@ public class TurnIndicatorUI : MonoBehaviour {
 
     void CreateUI() {
         _root = UIFactory.CreatePanel(transform, new Vector2(300, 50),
-            SpriteFactory.CreateFilledRect(300, 50, new Color(0.10f, 0.08f, 0.06f, 0.90f)),
-            Color.white, new Vector2(0.5f, 1), new Vector2(0.5f, 1));
-        var rect = _root.GetComponent<RectTransform>();
-        rect.anchoredPosition = new Vector2(0, -10);
-        rect.pivot = new Vector2(0.5f, 1);
+            new Color(0.10f, 0.08f, 0.06f, 0.90f),
+            new Vector2(0.5f, 1), new Vector2(0.5f, 1),
+            new Vector2(0, -10));
 
-        // Gold border
-        var border = UIFactory.CreateImage(_root.transform, new Vector2(300, 50),
-            SpriteFactory.CreateFilledRect(300, 50, Color.clear), Color.white);
-        border.GetComponent<Image>().color = UIColorPalette.GoldTrim;
-        var br = border.GetComponent<RectTransform>();
-        br.anchorMin = Vector2.zero;
-        br.anchorMax = Vector2.one;
-        br.sizeDelta = Vector2.zero;
+        // Gold border — generated procedural 300x50
+        var borderGo = new GameObject("Border", typeof(Image));
+        var bRect = borderGo.GetComponent<RectTransform>();
+        bRect.SetParent(_root.transform, false);
+        bRect.anchorMin = Vector2.zero;
+        bRect.anchorMax = Vector2.one;
+        bRect.offsetMin = Vector2.zero;
+        bRect.offsetMax = Vector2.zero;
 
-        _group = _root.AddComponent<CanvasGroup>();
+        var tex = new Texture2D(300, 50);
+        for (int x = 0; x < 300; x++)
+            for (int y = 0; y < 50; y++) {
+                bool edge = x < 2 || x >= 298 || y < 2 || y >= 48;
+                tex.SetPixel(x, y, edge ? UIColorPalette.GoldTrim : Color.clear);
+            }
+        tex.Apply();
+        var bImg = borderGo.GetComponent<Image>();
+        bImg.sprite = Sprite.Create(tex, new Rect(0, 0, 300, 50), Vector2.one * 0.5f, 1);
+        bImg.raycastTarget = false;
 
-        _label = UIFactory.CreateLabel(_root.transform, "PLAYER TURN", 24,
-            UIColorPalette.ParchmentLight, TextAnchor.MiddleCenter).GetComponent<Text>();
-        var lr = _label.GetComponent<RectTransform>();
+        var labelGo = UIFactory.CreateLabel(_root.transform, "PLAYER TURN", 24,
+            UIColorPalette.ParchmentLight, TextAnchor.MiddleCenter);
+        var lr = labelGo.GetComponent<RectTransform>();
         lr.anchorMin = Vector2.zero;
         lr.anchorMax = Vector2.one;
-        lr.sizeDelta = Vector2.zero;
+        lr.offsetMin = Vector2.zero;
+        lr.offsetMax = Vector2.zero;
+        _label = labelGo.GetComponent<Text>();
     }
 
     public void Show(BattlePhase phase) {
+        if (_root == null) return;
         switch (phase) {
             case BattlePhase.PlayerTurn:
-                _label.text = "⚔ PLAYER TURN ⚔";
+                _label.text = "PLAYER TURN";
                 _label.color = UIColorPalette.ParchmentLight;
+                _root.SetActive(true);
                 break;
             case BattlePhase.EnemyTurn:
-                _label.text = "👹 ENEMY TURN 👹";
+                _label.text = "ENEMY TURN";
                 _label.color = UIColorPalette.DeepRed;
+                _root.SetActive(true);
                 break;
             case BattlePhase.Victory:
-                _label.text = "🎉 VICTORY! 🎉";
+                _label.text = "VICTORY!";
                 _label.color = UIColorPalette.HpGreen;
+                _root.SetActive(true);
                 break;
             case BattlePhase.Defeat:
-                _label.text = "💀 DEFEAT... 💀";
+                _label.text = "DEFEAT...";
                 _label.color = UIColorPalette.DeepRed;
+                _root.SetActive(true);
                 break;
             default:
                 _root.SetActive(false);
-                return;
-        }
-        _root.SetActive(true);
-    }
-
-    public void SetPulse(bool active) {
-        if (active) StartCoroutine(PulseRoutine());
-    }
-
-    IEnumerator PulseRoutine() {
-        while (true) {
-            if (_group == null) yield break;
-            _group.alpha = 0.8f + Mathf.Sin(Time.time * 3f) * 0.2f;
-            yield return null;
+                break;
         }
     }
 }
