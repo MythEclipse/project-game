@@ -1,14 +1,11 @@
 {
   "mcpServers": {
-    "unity-mcp": {
-      "command": "dotnet",
-      "args": [
-        "/home/asephs/unity-project/Library/mcp-server/mcp-server.dll",
-        "--port",
-        "31089",
-        "--client-transport",
-        "stdio"
-      ]
+    "ai-game-developer": {
+      "headers": {
+        "Authorization": "Bearer 7u0OSOWjEJqR4gGW0IrE36bqM56BVH4uk5eNKYXIFIw"
+      },
+      "type": "http",
+      "url": "https://ai-game.dev/mcp"
     }
   }
 }
