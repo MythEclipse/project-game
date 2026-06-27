@@ -7,36 +7,35 @@ on:
 
 permissions:
   contents: write
-  packages: write
 
 jobs:
-  # ────────────────── GLIBC MAGIC ──────────────────
-  # Unity Linux standalone needs glibc ≈ 2.31+.
-  # Ubuntu 20.04 ships glibc 2.31, Ubuntu 22.04 ships 2.35 — both are fine.
-  # We use ubuntu-22.04 (latest LTS with glibc 2.35) for best compat.
-  # ─────────────────────────────────────────────────
-
   build:
     name: 🏗️ Build Linux
     runs-on: ubuntu-22.04
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      version: ${{ steps.version.outputs.version || '1.0.0' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # ── Semantic Version ──────────────────────────
+      # ── Setup Node (needed for semantic-release) ──────
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      # ── Compute next version (dry run) ──────────────
       - name: 📦 Compute next version
         id: version
-        uses: cycjimmy/semantic-release-action@v4
-        with:
-          dry_run: true
-          semantic_version: 24
+        run: |
+          npx semantic-release@24 --dry-run 2>&1 | tee /tmp/sr.log || true
+          VER=$(grep -oP 'next release version is \K[0-9]+\.[0-9]+\.[0-9]+' /tmp/sr.log || echo "1.0.0")
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          echo "→ Next version: $VER"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── Unity cache ───────────────────────────────
+      # ── Unity Library cache ─────────────────────────
       - name: ♻️ Restore Library cache
         uses: actions/cache@v4
         with:
@@ -45,7 +44,7 @@ jobs:
           restore-keys: |
             Library-6000.5.0f1-
 
-      # ── Build ─────────────────────────────────────
+      # ── Build (auto-activates license from secrets) ─
       - uses: game-ci/unity-builder@v4
         with:
           unityVersion: 6000.5.0f1
@@ -58,33 +57,24 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
-      # ── Package ───────────────────────────────────
+      # ── Package into tarball ────────────────────────
       - name: 📦 Create archive
         run: |
-          PRODUCT_NAME="project-game"
           VERSION="${{ steps.version.outputs.version || '1.0.0' }}"
           BUILD_DIR="build/StandaloneLinux64"
-          ARCHIVE="${PRODUCT_NAME}-linux-${VERSION}.tar.gz"
+          mkdir -p dist
+          echo "→ Creating project-game-linux-${VERSION}.tar.gz"
+          tar -czf "dist/project-game-linux-${VERSION}.tar.gz" -C "$BUILD_DIR" .
+          ls -lh "dist/"
 
-          if [ -d "$BUILD_DIR" ]; then
-            echo "→ Creating $ARCHIVE from $BUILD_DIR"
-            tar -czf "$ARCHIVE" -C "$BUILD_DIR" .
-            ls -lh "$ARCHIVE"
-          else
-            echo "::warning::Build directory $BUILD_DIR not found — creating empty placeholder"
-            mkdir -p dist
-            echo "placeholder" > "dist/${PRODUCT_NAME}-linux-${VERSION}.tar.gz"
-          fi
-
-      # ── Upload artifact ───────────────────────────
       - uses: actions/upload-artifact@v4
         with:
           name: project-game-linux
-          path: project-game-linux-*.tar.gz
+          path: dist/project-game-linux-*.tar.gz
           retention-days: 7
 
   release:
-    name: 🚀 Semantic Release
+    name: 🚀 Release
     runs-on: ubuntu-22.04
     needs: build
     if: github.ref == 'refs/heads/main'
@@ -94,18 +84,17 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
       - uses: actions/download-artifact@v4
         with:
           name: project-game-linux
           path: ./
 
+      # ── Publish GitHub Release ──────────────────────
       - name: 🚀 Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
-        with:
-          semantic_version: 24
-          extra_plugins: |
-            @semantic-release/commit-analyzer
-            @semantic-release/release-notes-generator
-            @semantic-release/github
+        run: npx semantic-release@24
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
