@@ -13,6 +13,7 @@ public class BattleHUD : MonoBehaviour {
     Text _nameT, _clsT, _hpT, _acT;
     Text[] _statT;
     GameObject _endOver;
+    GameObject _levelSelect;
     // Spell buttons — muncul kontekstual per class
     Button[] _spellBtns;
     GameObject _spellPanel;
@@ -146,6 +147,21 @@ public class BattleHUD : MonoBehaviour {
         fi.type=Image.Type.Filled; fi.fillMethod=Image.FillMethod.Horizontal;
         fi.fillAmount=1f; fi.color=UIColorPalette.HpGreen; fi.raycastTarget=false;
         return fi;
+    }
+
+    // Text at fixed anchor position (non-stretch)
+    Text TitleTxt(Transform p, string t, int sz, Color c, float px, float py) {
+        var g=Make("t",p);
+        var r=g.GetComponent<RectTransform>();
+        r.anchorMin=new Vector2(.5f,1); r.anchorMax=new Vector2(.5f,1);
+        r.pivot=new Vector2(.5f,1);
+        r.sizeDelta=new Vector2(800,50);
+        r.anchoredPosition=new Vector2(px,py);
+        var tx=Add<Text>(g);
+        tx.text=t; tx.fontSize=sz; tx.color=c; tx.alignment=TextAnchor.MiddleCenter;
+        tx.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        tx.supportRichText=true; tx.raycastTarget=false;
+        return tx;
     }
 
     // ─── BORDER ───
@@ -307,7 +323,10 @@ public class BattleHUD : MonoBehaviour {
     }
 
     void OnPhase(BattlePhase p){
-        if(p==BattlePhase.Battle)_turnTxt.text="⚔ Battle";
+        if(p==BattlePhase.Battle){
+            int lv=1;if(LevelManager.Instance!=null)lv=LevelManager.Instance.CurrentLevel;
+            _turnTxt.text=$"⚔ Battle — Level {lv}";
+        }
         else if(p==BattlePhase.Victory){_turnTxt.text="✦ VICTORY! ✦";_turnTxt.color=UIColorPalette.HpGreen;Hide();ShowEnd(true);}
         else if(p==BattlePhase.Defeat){_turnTxt.text="✟ DEFEAT...";_turnTxt.color=UIColorPalette.DeepRed;Hide();ShowEnd(false);}
     }
@@ -368,14 +387,158 @@ public class BattleHUD : MonoBehaviour {
         vr.anchorMin=Vector2.zero;vr.anchorMax=Vector2.one;
         vr.sizeDelta=Vector2.zero;vr.anchoredPosition=Vector2.zero;
         _endOver.GetComponent<Image>().color=new Color(0,0,0,.75f);
-        Txt(_endOver.transform,w?"✦ VICTORY! ✦":"✟ DEFEAT...",64,w?UIColorPalette.HpGreen:UIColorPalette.DeepRed,TextAnchor.MiddleCenter);
-        // Restart button — reload current scene
-        var rb=Btn(_endOver.transform,"Restart",140,44,UIColorPalette.StoneMid,Color.white,18,0,-100);
-        rb.onClick.RemoveAllListeners();
-        rb.onClick.AddListener(()=>{
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-        });
+
+        int lv = LevelManager.Instance != null ? LevelManager.Instance.CurrentLevel : 1;
+
+        // ── Title text (non-stretch, fixed position) ──
+        {
+            var g=Make("title",_endOver.transform);
+            var r=g.GetComponent<RectTransform>();
+            r.anchorMin=new Vector2(.5f,1);r.anchorMax=new Vector2(.5f,1);
+            r.pivot=new Vector2(.5f,1);
+            r.sizeDelta=new Vector2(800,60);
+            r.anchoredPosition=new Vector2(0,-20);
+            var tx=Add<Text>(g);
+            tx.text=w?$"✦ VICTORY! (Level {lv}) ✦":"✟ DEFEAT...";
+            tx.fontSize=w?52:48;
+            tx.color=w?UIColorPalette.HpGreen:UIColorPalette.DeepRed;
+            tx.alignment=TextAnchor.MiddleCenter;
+            tx.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            tx.supportRichText=true;tx.raycastTarget=false;
+        }
+
+        if (w) {
+            // ── "You reached Level X" subtitle ──
+            {
+                var g=Make("sub",_endOver.transform);
+                var r=g.GetComponent<RectTransform>();
+                r.anchorMin=new Vector2(.5f,1);r.anchorMax=new Vector2(.5f,1);
+                r.pivot=new Vector2(.5f,1);
+                r.sizeDelta=new Vector2(800,40);
+                r.anchoredPosition=new Vector2(0,-90);
+                var tx=Add<Text>(g);
+                tx.text=$"You reached Level {lv} — pick a level:";
+                tx.fontSize=22;tx.color=UIColorPalette.ParchmentLight;
+                tx.alignment=TextAnchor.MiddleCenter;
+                tx.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                tx.supportRichText=true;tx.raycastTarget=false;
+            }
+
+            // ── Level select row (buttons L1, L2, ... LX) ──
+            {
+                var row=Make("lvRow",_endOver.transform);
+                var rr=row.GetComponent<RectTransform>();
+                rr.anchorMin=new Vector2(.5f,.5f);rr.anchorMax=new Vector2(.5f,.5f);
+                rr.pivot=new Vector2(.5f,.5f);
+                rr.sizeDelta=new Vector2(600,40);
+                rr.anchoredPosition=new Vector2(0,30);
+                var hl=row.AddComponent<HorizontalLayoutGroup>();
+                hl.childAlignment=TextAnchor.MiddleCenter;
+                hl.childForceExpandWidth=false;hl.childForceExpandHeight=true;
+                hl.spacing=8;
+
+                for(int i=1;i<=lv;i++){
+                    bool isCur=i==lv;
+                    var b=Btn(row.transform,$"L{i}",48,34,
+                        isCur?UIColorPalette.GoldTrim:UIColorPalette.StoneMid,
+                        isCur?Color.black:Color.white,16,0,0);
+                    var br=b.GetComponent<RectTransform>();
+                    br.anchorMin=new Vector2(0,0);br.anchorMax=new Vector2(0,0);
+                    br.anchoredPosition=Vector2.zero;
+                    int li=i;
+                    b.onClick.RemoveAllListeners();
+                    b.onClick.AddListener(()=>{
+                        if(LevelManager.Instance!=null)LevelManager.Instance.SetLevel(li);
+                        if(BattleController.Instance!=null)BattleController.Instance.StartNewBattle();
+                    });
+                }
+            }
+
+            // ── Next Level button ──
+            {
+                var nb=Btn(_endOver.transform,"Next Level →",180,48,UIColorPalette.HpGreen,Color.white,20,0,-50);
+                nb.onClick.RemoveAllListeners();
+                nb.onClick.AddListener(()=>{
+                    if(BattleController.Instance!=null)BattleController.Instance.StartNewBattle();
+                });
+            }
+
+            // ── Restart Lv 1 button ──
+            {
+                var rb=Btn(_endOver.transform,"Restart Lv 1",160,46,UIColorPalette.StoneMid,Color.white,18,0,-115);
+                rb.onClick.RemoveAllListeners();
+                rb.onClick.AddListener(()=>{
+                    if(LevelManager.Instance!=null)LevelManager.Instance.Reset();
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(
+                        UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+                });
+            }
+        } else {
+            // Defeat screen
+            {
+                var g=Make("sub",_endOver.transform);
+                var r=g.GetComponent<RectTransform>();
+                r.anchorMin=new Vector2(.5f,.5f);r.anchorMax=new Vector2(.5f,.5f);
+                r.pivot=new Vector2(.5f,.5f);
+                r.sizeDelta=new Vector2(600,40);
+                r.anchoredPosition=new Vector2(0,20);
+                var tx=Add<Text>(g);
+                tx.text=$"You reached Level {lv}";
+                tx.fontSize=24;tx.color=UIColorPalette.ParchmentLight;
+                tx.alignment=TextAnchor.MiddleCenter;
+                tx.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                tx.supportRichText=true;tx.raycastTarget=false;
+            }
+            {
+                var rb=Btn(_endOver.transform,"Restart",160,46,UIColorPalette.DeepRed,Color.white,20,0,-50);
+                rb.onClick.RemoveAllListeners();
+                rb.onClick.AddListener(()=>{
+                    if(LevelManager.Instance!=null)LevelManager.Instance.Reset();
+                    UnityEngine.SceneManagement.SceneManager.LoadScene(
+                        UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+                });
+            }
+        }
+    }
+
+    /// <summary>Show level select overlay at game start (before first battle).</summary>
+    public void ShowLevelSelect() {
+        if(_endOver!=null)Destroy(_endOver);
+        if(_levelSelect!=null)Destroy(_levelSelect);
+        _levelSelect=new GameObject("lvSelect",typeof(Image));
+        var vr=_levelSelect.GetComponent<RectTransform>();
+        vr.SetParent(_canvas.transform,false);
+        vr.anchorMin=Vector2.zero;vr.anchorMax=Vector2.one;
+        vr.sizeDelta=Vector2.zero;vr.anchoredPosition=Vector2.zero;
+        _levelSelect.GetComponent<Image>().color=new Color(0,0,0,.85f);
+
+        // Title (fixed top)
+        TitleTxt(_levelSelect.transform,"⚔ D&D Tactics",48,UIColorPalette.GoldTrim,0,-20);
+        // Subtitle (fixed top, below title)
+        TitleTxt(_levelSelect.transform,"Select Level:",24,UIColorPalette.ParchmentLight,0,-90);
+
+        // Level buttons — manually positioned, centered
+        int maxLv = LevelManager.Instance != null ? LevelManager.Instance.MaxLevel : 10;
+        int cols = 5; float bw = 100, bh = 44, gap = 14;
+        float totalW = cols * bw + (cols-1) * gap;
+        float startX = -totalW / 2f + bw / 2f;
+        float startY = 50;
+
+        for (int i = 1; i <= maxLv; i++) {
+            int col = (i - 1) % cols;
+            int row = (i - 1) / cols;
+            float px = startX + col * (bw + gap);
+            float py = startY - row * (bh + gap);
+            var b=Btn(_levelSelect.transform,$"Lv {i}",(int)bw,(int)bh,
+                i==1?UIColorPalette.HpGreen:UIColorPalette.StoneMid,Color.white,18,px,py);
+            int li=i;
+            b.onClick.RemoveAllListeners();
+            b.onClick.AddListener(()=>{
+                Destroy(_levelSelect);
+                _levelSelect=null;
+                if(BattleController.Instance!=null)BattleController.Instance.BeginBattleAtLevel(li);
+            });
+        }
     }
 
     void RefreshSpellButtons(Unit u){

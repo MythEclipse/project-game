@@ -43,4 +43,51 @@ public class UnitData : ScriptableObject {
         UnitClass.Wizard => IntelligenceMod,
         _ => StrengthMod,
     };
+
+    /// <summary>
+    /// Create a scaled copy of this UnitData for the current difficulty level.
+    /// HP is multiplied, damage gains a flat bonus, and AC increases.
+    /// The original asset is never mutated — each level gets fresh copies.
+    /// </summary>
+    public UnitData CreateScaledCopy(float hpMult, int dmgBonus, int acBonus) {
+        var copy = CreateInstance<UnitData>();
+        copy.unitName = unitName;
+        copy.unitClass = unitClass;
+        copy.strength = strength;
+        copy.dexterity = dexterity;
+        copy.constitution = constitution;
+        copy.intelligence = intelligence;
+        copy.wisdom = wisdom;
+        copy.charisma = charisma;
+        copy.moveRange = moveRange;
+        copy.attackRange = attackRange;
+        copy.isPlayerControlled = isPlayerControlled;
+
+        // Scale HP
+        copy.maxHp = Mathf.RoundToInt(maxHp * hpMult);
+
+        // Scale damage notation "XdY+Z" → add dmgBonus to Z
+        copy.weaponDamage = ScaleDamageNotation(weaponDamage, dmgBonus);
+
+        // Scale AC
+        copy.armorClass = armorClass + acBonus;
+
+        return copy;
+    }
+
+    /// <summary>Parse "XdY+Z" or "XdY-Z", add bonus, return new notation.</summary>
+    static string ScaleDamageNotation(string notation, int bonus) {
+        if (string.IsNullOrEmpty(notation)) return notation;
+        var match = System.Text.RegularExpressions.Regex.Match(notation, @"^(\d+)d(\d+)([+-]\d+)?$");
+        if (!match.Success) return notation;
+
+        int count = int.Parse(match.Groups[1].Value);
+        int sides = int.Parse(match.Groups[2].Value);
+        int existingBonus = match.Groups[3].Success ? int.Parse(match.Groups[3].Value) : 0;
+        int newBonus = existingBonus + bonus;
+
+        if (newBonus > 0) return $"{count}d{sides}+{newBonus}";
+        if (newBonus < 0) return $"{count}d{sides}{newBonus}";
+        return $"{count}d{sides}";
+    }
 }

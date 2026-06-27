@@ -302,5 +302,18 @@ public class TurnManager : MonoBehaviour {
         else _enemyUnits.Remove(unit);
     }
 
+    /// <summary>
+    /// Reset turn manager state for a new battle (no scene reload).
+    /// Clears the turn queue and re-initializes from whatever units exist.
+    /// </summary>
+    public void ResetForNewBattle() {
+        _turnQueue.Clear();
+        _currentQueueIndex = -1;
+        SubState = TurnSubState.Idle;
+        ActiveUnit = null;
+        _currentPhase = BattlePhase.Placement;
+        OnPhaseChanged?.Invoke(_currentPhase);
+    }
+
     void OnDestroy() { if (Instance == this) Instance = null; }
 }

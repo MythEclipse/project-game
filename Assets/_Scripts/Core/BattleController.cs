@@ -39,6 +39,9 @@ public class BattleController : MonoBehaviour {
     }
 
     void Start() {
+        // Ensure LevelManager exists (auto-created if not in scene)
+        LevelManager.EnsureExists();
+
         if (GridManager.Instance != null)
             GridManager.Instance.OnTileClickedEvent += HandleTileClicked;
 
@@ -51,10 +54,16 @@ public class BattleController : MonoBehaviour {
         if (_actionSystem != null)
             _actionSystem.OnAttackPerformed += OnAttackPerformed;
 
-        // Init HUD
+        // Init HUD (show level select first — don't auto-spawn)
         _battleHud = new GameObject("BattleHUD").AddComponent<BattleHUD>();
         _battleHud.Init();
+        _battleHud.ShowLevelSelect();
+    }
 
+    /// <summary>Start battle at a specific level (called from level select UI).</summary>
+    public void BeginBattleAtLevel(int level) {
+        if (LevelManager.Instance != null)
+            LevelManager.Instance.SetLevel(level);
         Invoke(nameof(SpawnUnits), 0.1f);
     }
 
@@ -92,13 +101,25 @@ public class BattleController : MonoBehaviour {
             return;
         }
 
+        int level = 1;
+        if (LevelManager.Instance != null) {
+            level = LevelManager.Instance.CurrentLevel;
+        }
+
         var grid = GridManager.Instance;
         int gridH = grid.Height;
         int playerRow = gridH / 2 - 1;
         int enemyRow = gridH / 2 + 1;
         int spacing = 3;
-        int startX = (grid.Width - (Mathf.Max(playerData.Count, enemyData.Count) - 1) * spacing) / 2;
 
+        // Gunakan EnemyCountForLevel untuk menentukan jumlah musuh
+        int enemyCount = LevelManager.Instance != null
+            ? LevelManager.Instance.EnemyCountForLevel()
+            : enemyData.Count;
+
+        int startX = (grid.Width - (Mathf.Max(playerData.Count, enemyCount) - 1) * spacing) / 2;
+
+        // Spawn player units (tetap 4 atau sesuai data)
         for (int i = 0; i < playerData.Count && i < 4; i++) {
             var unit = Instantiate(_unitPrefab, _playerUnitParent);
             unit.SetData(playerData[i]);
@@ -107,12 +128,23 @@ public class BattleController : MonoBehaviour {
                 unit.name = playerData[i].unitName;
         }
 
-        for (int i = 0; i < enemyData.Count && i < 4; i++) {
+        // Spawn enemy units — scaled dengan level
+        int enemySpawnCount = Mathf.Min(enemyData.Count, enemyCount);
+        for (int i = 0; i < enemySpawnCount; i++) {
             var unit = Instantiate(_unitPrefab, _enemyUnitParent);
-            unit.SetData(enemyData[i]);
+
+            // Buat scaled copy per level
+            var scaledData = enemyData[i].CreateScaledCopy(
+                LevelManager.Instance.HpMultiplier(),
+                LevelManager.Instance.DamageBonus(),
+                LevelManager.Instance.AcBonus()
+            );
+            scaledData.unitName = $"{enemyData[i].unitName} Lv{level}";
+            unit.SetData(scaledData);
+
             int xPos = startX + i * spacing;
             if (grid.PlaceUnit(unit, new Vector2Int(xPos, enemyRow)))
-                unit.name = enemyData[i].unitName;
+                unit.name = scaledData.unitName;
         }
 
         _turnManager?.StartBattle();
@@ -141,6 +173,43 @@ public class BattleController : MonoBehaviour {
         ClearHighlights();
         if (_pulseCoroutine != null) { StopCoroutine(_pulseCoroutine); _pulseCoroutine = null; }
         _selectedUnit = null; _isWaitingForTarget = false;
+
+        if (playerWon && LevelManager.Instance != null) {
+            LevelManager.Instance.AdvanceLevel();
+            Debug.Log($"Advancing to Level {LevelManager.Instance.CurrentLevel}");
+        }
+    }
+
+    /// <summary>
+    /// Clear the battlefield and respawn units at the current level.
+    /// Called after victory to advance to the next level.
+    /// </summary>
+    public void StartNewBattle() {
+        // DestroyImmediate agar unit langsung terhapus (tidak deferred)
+        var toDestroy = new List<GameObject>();
+        foreach (Transform child in _playerUnitParent) toDestroy.Add(child.gameObject);
+        foreach (Transform child in _enemyUnitParent) toDestroy.Add(child.gameObject);
+        foreach (var go in toDestroy) DestroyImmediate(go);
+
+        // Bersihkan grid occupants
+        var grid = GridManager.Instance;
+        if (grid != null) {
+            foreach (var kvp in grid.Tiles) {
+                kvp.Value.ClearOccupant();
+            }
+        }
+
+        ClearHighlights();
+        _selectedUnit = null;
+        _isWaitingForTarget = false;
+
+        // Hapus combat log entries
+        var combatLog = FindObjectOfType<CombatLog>();
+        if (combatLog != null) combatLog.Clear();
+
+        // Reset turn state dan spawn baru
+        if (_turnManager != null) _turnManager.ResetForNewBattle();
+        SpawnUnits();
     }
 
     void OnAttackPerformed(Unit attacker, Unit defender, AttackResult result) {

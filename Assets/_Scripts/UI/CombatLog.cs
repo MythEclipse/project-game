@@ -103,6 +103,13 @@ public class CombatLog : MonoBehaviour {
             scrollRect.verticalNormalizedPosition = 0f;
     }
 
+    /// <summary>Clear all log entries (on new battle).</summary>
+    public void Clear() {
+        _entries.Clear();
+        _logText.text = "";
+        AddEntry("<color=#888>⚔ New battle started</color>");
+    }
+
     public void LogAttack(Unit attacker, Unit defender, AttackResult result) {
         string txt;
         if (result.miss)
