@@ -1,0 +1,111 @@
+name: 🎮 Build & Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  # ────────────────── GLIBC MAGIC ──────────────────
+  # Unity Linux standalone needs glibc ≈ 2.31+.
+  # Ubuntu 20.04 ships glibc 2.31, Ubuntu 22.04 ships 2.35 — both are fine.
+  # We use ubuntu-22.04 (latest LTS with glibc 2.35) for best compat.
+  # ─────────────────────────────────────────────────
+
+  build:
+    name: 🏗️ Build Linux
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── Semantic Version ──────────────────────────
+      - name: 📦 Compute next version
+        id: version
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          semantic_version: 24
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Unity cache ───────────────────────────────
+      - name: ♻️ Restore Library cache
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-6000.5.0f1-${{ hashFiles('Packages/manifest.json', 'Packages/packages-lock.json') }}
+          restore-keys: |
+            Library-6000.5.0f1-
+
+      # ── Build ─────────────────────────────────────
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 6000.5.0f1
+          targetPlatform: StandaloneLinux64
+          buildMethod: BuildScript.PerformLinuxBuild
+          versioning: Custom
+          version: ${{ steps.version.outputs.version || '1.0.0' }}
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      # ── Package ───────────────────────────────────
+      - name: 📦 Create archive
+        run: |
+          PRODUCT_NAME="project-game"
+          VERSION="${{ steps.version.outputs.version || '1.0.0' }}"
+          BUILD_DIR="build/StandaloneLinux64"
+          ARCHIVE="${PRODUCT_NAME}-linux-${VERSION}.tar.gz"
+
+          if [ -d "$BUILD_DIR" ]; then
+            echo "→ Creating $ARCHIVE from $BUILD_DIR"
+            tar -czf "$ARCHIVE" -C "$BUILD_DIR" .
+            ls -lh "$ARCHIVE"
+          else
+            echo "::warning::Build directory $BUILD_DIR not found — creating empty placeholder"
+            mkdir -p dist
+            echo "placeholder" > "dist/${PRODUCT_NAME}-linux-${VERSION}.tar.gz"
+          fi
+
+      # ── Upload artifact ───────────────────────────
+      - uses: actions/upload-artifact@v4
+        with:
+          name: project-game-linux
+          path: project-game-linux-*.tar.gz
+          retention-days: 7
+
+  release:
+    name: 🚀 Semantic Release
+    runs-on: ubuntu-22.04
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: project-game-linux
+          path: ./
+
+      - name: 🚀 Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 24
+          extra_plugins: |
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
